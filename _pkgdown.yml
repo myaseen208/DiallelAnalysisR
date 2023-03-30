@@ -56,6 +56,7 @@ reference:
          - '`GriffingData3`'
          - '`GriffingData4`'
          - '`HaymanData`'
+         - '`PartialDiallelData`'
 
 
     - title: Core anlaysis function
