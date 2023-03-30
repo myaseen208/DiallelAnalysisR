@@ -1,0 +1,66 @@
+url: https://myaseen208.github.io/DiallelAnalysisR/
+
+home:
+  title: DiallelAnalysisR
+  description: Diallel Analysis with R
+
+
+template:
+  params:
+    bootswatch: united
+    ganalytics: UA-116716530-2
+    docsearch:
+      api_key: bdafb7ea4490644e670f470ee3ef537f
+      index_name: DiallelAnalysisR
+
+
+toc:
+  depth: 3
+
+authors:
+  Muhammmad Yaseen:
+    href: https://www.researchgate.net/profile/Muhammad_Yaseen10
+  Kent M. Eskridge:
+    href: https://www.researchgate.net/profile/Kent_Eskridge
+
+development:
+  mode: unreleased
+
+
+navbar:
+  title: DiallelAnalysisR
+  type: default
+  left:
+    - icon: fa-home fa-lg
+      text: Home
+      href: index.html
+    - icon: fa-code
+      text: Reference
+      href: reference/index.html
+    - icon: fa-newspaper-o
+      text: News
+      href: news/index.html
+  right:
+    - icon: "fa-github"
+      href: https://github.com/myaseen208/eda4treeR
+    - text: "RG"
+      href: https://www.researchgate.net/profile/Muhammad_Yaseen10
+    - icon: "fab fa-twitter"
+      href: https://twitter.com/myaseen208
+
+reference:
+    - title: Data Sets
+      contents:
+         - '`GriffingData1`'
+         - '`GriffingData2`'
+         - '`GriffingData3`'
+         - '`GriffingData4`'
+         - '`HaymanData`'
+
+
+    - title: Core anlaysis function
+      contents:
+         - '`Griffing`'
+         - '`Hayman`'
+         - '`PartialDiallel`'
+
