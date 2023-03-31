@@ -3,11 +3,16 @@
 
 ###### Version : [0.5.0](https://myaseen208.github.io/DiallelAnalysisR/); Copyright (C) 2019-2020: [UAF](http://uaf.edu.pk//); License: [GPL-2\|GPL-3](https://www.r-project.org/Licenses/)
 
-##### *Muhammad Yaseen<sup>1</sup>, and Kent M. Eskridge<sup>2</sup>*
+##### *Muhammad Yaseen<sup>1,2,3</sup>, and Kent M. Eskridge<sup>4</sup>*
 
-1.  Department of Mathematics and Statistics, University of Agriculture
+1.  Asian Development Bank (ADB), Islamabad, Pakistan.
+
+2.  Benazir Income Support Programme (BISP), Islamabad, Pakistan.
+
+3.  Department of Mathematics and Statistics, University of Agriculture
     Faisalabad, Pakistan.
-2.  Department of Statistics, University of Nebraska Lincoln, NE, USA.
+
+4.  Department of Statistics, University of Nebraska Lincoln, NE, USA.
 
 ------------------------------------------------------------------------
 
@@ -20,7 +25,7 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org
 downloads](https://cranlogs.r-pkg.org/badges/grand-total/DiallelAnalysisR?color=green)](https://CRAN.R-project.org/package=DiallelAnalysisR)
 <!-- [![packageversion](https://img.shields.io/badge/Package%20version-0.2.3.3-orange.svg)](https://github.com/myaseen208/DiallelAnalysisR) -->
 
-[![develVersion](https://img.shields.io/badge/devel%20version-0.4.0-orange.svg)](https://github.com/myaseen208/DiallelAnalysisR)
+[![develVersion](https://img.shields.io/badge/devel%20version-0.5.0-orange.svg)](https://github.com/myaseen208/DiallelAnalysisR)
 
 <!-- [![GitHub Download Count](https://github-basic-badges.herokuapp.com/downloads/myaseen208/DiallelAnalysisR/total.svg)] -->
 
@@ -78,26 +83,18 @@ To cite the methods in the package use:
 
 ``` r
 citation("DiallelAnalysisR")
+
+Please, support this project by citing it in your publications!
+
+  Yaseen M, Eskridge KM (2023). _DiallelAnalysisR: Diallel Analysis
+  with R_.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {DiallelAnalysisR: Diallel Analysis with R},
+    author = {Muhammad Yaseen and Kent M. Eskridge},
+    year = {2023},
+    journal = {The Comprehensive R Archive Network (CRAN)},
+  }
 ```
-
-
-    To cite the R package 'DiallelAnalysisR' in publications use:
-
-      Muhammad Yaseen, and Kent M. Eskridge (2023).  DiallelAnalysisR:
-      Diallel Analysis with R.R package version 0.4.0 ,
-      https://myaseen208.github.io/DiallelAnalysisR/https://cran.r-project.org/package=DiallelAnalysisR.
-
-    A BibTeX entry for LaTeX users is
-
-      @Manual{,
-        title = {DiallelAnalysisR: Diallel Analysis with R},
-        author = {{Muhammad Yaseen} and {Kent M. Eskridge} and {Pedro A. M. Barbosa}},
-        year = {2023},
-        note = {R package version 0.4.0},
-        note = {https://myaseen208.github.io/DiallelAnalysisR/ },
-        note = {https://cran.r-project.org/package=DiallelAnalysisR},
-      }
-
-    This free and open-source software implements academic research by the
-    authors and co-workers. If you use it, please support the project by
-    citing the package.
