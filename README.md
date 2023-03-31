@@ -1,7 +1,7 @@
 
 ## `DiallelAnalysisR`: Diallel Analysis with R
 
-###### Version : [0.5.0](https://myaseen208.github.io/DiallelAnalysisR/); Copyright (C) 2019-2020: [UAF](http://uaf.edu.pk//); License: [GPL-2\|GPL-3](https://www.r-project.org/Licenses/)
+###### Version : [0.5.0](https://myaseen208.com/DiallelAnalysisR/); Copyright (C) 2019-2020: License: [GPL-2\|GPL-3](https://www.r-project.org/Licenses/)
 
 ##### *Muhammad Yaseen<sup>1,2,3</sup>, and Kent M. Eskridge<sup>4</sup>*
 
@@ -30,10 +30,10 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/DiallelAnalysisR?color=
 <!-- [![GitHub Download Count](https://github-basic-badges.herokuapp.com/downloads/myaseen208/DiallelAnalysisR/total.svg)] -->
 
 [![Project Status:
-WIP](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+WIP](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Last-changedate](https://img.shields.io/badge/last%20change-2023--03--31-yellowgreen.svg)](https://github.com/myaseen208/DiallelAnalysisR)
-[![Rdoc](http://www.rdocumentation.org/badges/version/DiallelAnalysisR)](http://www.rdocumentation.org/packages/DiallelAnalysisR)
+[![Rdoc](https://www.rdocumentation.org/badges/version/DiallelAnalysisR)](https://www.rdocumentation.org/packages/DiallelAnalysisR)
 
 ------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ news(package = "DiallelAnalysisR")
 
 [Github page](https://github.com/myaseen208/DiallelAnalysisR)
 
-[Documentation website](https://myaseen208.github.io/DiallelAnalysisR/)
+[Documentation website](https://myaseen208.com/DiallelAnalysisR/)
 
 ## Citing `DiallelAnalysisR`
 

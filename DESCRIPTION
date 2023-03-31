@@ -33,11 +33,10 @@ Copyright: 2019-2020, UAF
 License: GPL-2 | GPL-3
 Encoding: UTF-8
 LazyData: true
-VignetteBuilder: knitr
 RoxygenNote: 7.2.3
 URL: https://github.com/myaseen208/DiallelAnalysisR
      https://CRAN.R-project.org/package=DiallelAnalysisR
-     https://myaseen208.github.io/DiallelAnalysisR/
+     https://myaseen208.com/DiallelAnalysisR/
 BugReports: https://github.com/myaseen208/DiallelAnalysisR/issues
 Imports:
     ggplot2,
