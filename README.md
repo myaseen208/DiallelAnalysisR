@@ -32,10 +32,8 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/DiallelAnalysisR?color=
 [![Project Status:
 WIP](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2023--03--31-yellowgreen.svg)](https://github.com/myaseen208/DiallelAnalysisR)
-[![Rdoc](https://www.rdocumentation.org/badges/version/DiallelAnalysisR)](https://www.rdocumentation.org/packages/DiallelAnalysisR)
-
-------------------------------------------------------------------------
+[![Last-changedate](https://img.shields.io/badge/last%20change-2024--09--13-yellowgreen.svg)](https://github.com/myaseen208/DiallelAnalysisR)
+\*\*\*
 
 ## Description
 
@@ -83,7 +81,6 @@ To cite the methods in the package use:
 
 ``` r
 citation("DiallelAnalysisR")
-
 Please, support this project by citing it in your publications!
 
   Yaseen M, Eskridge KM (2023). _DiallelAnalysisR: Diallel Analysis

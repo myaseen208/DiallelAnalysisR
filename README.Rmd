@@ -45,8 +45,6 @@ cat(paste("[![develVersion](https://img.shields.io/badge/devel%20version-", dver
 [![Project Status: WIP](https://www.repostatus.org/badges/latest/inactive.svg)](https://www.repostatus.org/#inactive)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](https://github.com/myaseen208/DiallelAnalysisR)
-[![Rdoc](https://www.rdocumentation.org/badges/version/DiallelAnalysisR)](https://www.rdocumentation.org/packages/DiallelAnalysisR)
-
 ***
 
 ## Description

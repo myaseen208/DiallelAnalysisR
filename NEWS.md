@@ -1,3 +1,9 @@
+# DiallelAnalysisR 0.6.0
+## New Features 
+
+* Updated the DESCRIPTION file to fulfill the requirements of CRAN
+
+
 # DiallelAnalysisR 0.5.0
 ## New Features 
 

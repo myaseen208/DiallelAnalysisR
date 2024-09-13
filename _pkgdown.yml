@@ -6,6 +6,7 @@ home:
 
 
 template:
+  bootstrap: 5
   params:
     bootswatch: united
     ganalytics: UA-116716530-2
@@ -41,12 +42,18 @@ navbar:
       text: News
       href: news/index.html
   right:
-    - icon: "fa-github"
-      href: https://github.com/myaseen208/eda4treeR
+    - text: "GitHub"
+      href: https://github.com/myaseen208/DiallelAnalysisR
+      icon: fa-github
+      aria-label: "GitHub repository"
     - text: "RG"
       href: https://www.researchgate.net/profile/Muhammad_Yaseen10
-    - icon: "fab fa-twitter"
+      icon: fa-github
+      aria-label: "RG"
+    - text: "Twitter"
       href: https://twitter.com/myaseen208
+      icon: "fab fa-twitter"
+      aria-label: "Twitter"
 
 reference:
     - title: Data Sets

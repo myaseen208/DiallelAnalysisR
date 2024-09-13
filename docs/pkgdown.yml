@@ -1,9 +1,8 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
-pkgdown_sha: ~
+pandoc: 3.1.11
+pkgdown: 2.1.0.9000
+pkgdown_sha: 800340f4b1b6d5c8c0c3510ef34776436b14b298
 articles: {}
-last_built: 2023-03-31T14:38Z
+last_built: 2024-09-13T20:38Z
 urls:
   reference: https://myaseen208.github.io/DiallelAnalysisR/reference
   article: https://myaseen208.github.io/DiallelAnalysisR/articles
-
