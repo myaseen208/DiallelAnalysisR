@@ -46,10 +46,10 @@ navbar:
       href: https://github.com/myaseen208/DiallelAnalysisR
       icon: fa-github
       aria-label: "GitHub repository"
-    - text: "RG"
+    - text: "ResearchGate"
       href: https://www.researchgate.net/profile/Muhammad_Yaseen10
       icon: fa-github
-      aria-label: "RG"
+      aria-label: "ResearchGate"
     - text: "Twitter"
       href: https://twitter.com/myaseen208
       icon: "fab fa-twitter"

@@ -34,9 +34,8 @@ License: GPL-2 | GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
-URL: https://myaseen208.github.io/DiallelAnalysisR
+URL: https://myaseen208.com/DiallelAnalysisR/
      https://CRAN.R-project.org/package=DiallelAnalysisR
-     https://myaseen208.com/DiallelAnalysisR/
 BugReports: https://github.com/myaseen208/DiallelAnalysisR/issues
 Imports:
     ggplot2,
