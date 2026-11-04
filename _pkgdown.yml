@@ -1,0 +1,111 @@
+url: https://myaseen208.com/DiallelAnalysisR/
+title: "DiallelAnalysisR: Diallel Analysis, Heterosis and Related Mating Designs"
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  math-rendering: mathjax
+  bslib:
+    base_font:
+      google: Crimson Pro
+    heading_font:
+      google: Crimson Pro
+    code_font:
+      google: JetBrains Mono
+    bg: "#ffffff"
+    fg: "#1a1a1a"
+    primary: "#2c5f8a"
+    link-color: "#2c5f8a"
+
+home:
+  sidebar:
+    structure: [links, license, citation, authors, dev]
+
+navbar:
+  structure:
+    left:  [home, reference, articles, pdf, news]
+    right: [search, github]
+  components:
+    pdf:
+      text: PDF
+      href: pdf/index.html
+
+articles:
+  - title: Getting started
+    navbar: Getting started
+    contents:
+      - DiallelAnalysisR_01_getting_started
+      - DiallelAnalysisR_02_choosing
+      - DiallelAnalysisR_03_theory
+  - title: Diallel analyses
+    navbar: Diallel analyses
+    contents:
+      - DiallelAnalysisR_04_griffing_fixed
+      - DiallelAnalysisR_05_griffing_random
+      - DiallelAnalysisR_06_hayman
+      - DiallelAnalysisR_07_partial
+  - title: Heterosis, related designs and environments
+    navbar: Heterosis, related designs and environments
+    contents:
+      - DiallelAnalysisR_08_heterosis
+      - DiallelAnalysisR_09_linetester
+      - DiallelAnalysisR_10_environments
+  - title: Planning, tables and the application
+    navbar: Planning, tables and the application
+    contents:
+      - DiallelAnalysisR_11_planning
+      - DiallelAnalysisR_12_export_app
+  - title: Validation, speed and extending
+    navbar: Validation, speed and extending
+    contents:
+      - DiallelAnalysisR_13_validation
+      - DiallelAnalysisR_14_speed
+      - DiallelAnalysisR_15_extending
+
+reference:
+  - title: Diallel analyses
+    desc: Griffing's methods and models, from plot data, from a table of means and over environments; Hayman's analysis.
+    contents:
+      - Griffing
+      - GriffingMeans
+      - GriffingEnv
+      - Hayman
+  - title: Heterosis
+    desc: Heterosis over the parents and a check; Gardner and Eberhart's Analyses II and III.
+    contents:
+      - Heterosis
+      - GardnerEberhart
+  - title: Related mating designs
+    desc: Crosses between two groups, lines by testers, and the North Carolina designs.
+    contents:
+      - PartialDiallel
+      - LineTester
+      - NCDesign
+  - title: Planning
+    desc: Simulated diallels and the power of the tests for numbers of replicates.
+    contents:
+      - DiallelSim
+      - DiallelPower
+  - title: Results, tables and the application
+    desc: Methods of the result objects, tables for papers, and the interactive application.
+    contents:
+      - da-methods
+      - diallel-methods
+      - da_export
+      - DiallelApp
+  - title: Data
+    desc: Example data sets.
+    contents:
+      - has_concept("DiallelAnalysisR data")
+  - title: Utilities
+    contents:
+      - da_theme
+      - da_save
+      - da_notation
+      - da_reference
+      - DiallelAnalysisR-package
+
+footer:
+  structure:
+    left: developed_by
+    right: built_with

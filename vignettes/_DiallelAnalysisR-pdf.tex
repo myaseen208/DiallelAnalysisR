@@ -1,0 +1,18 @@
+% Preamble of the PDF vignettes (common layer; synced). gtm.sty, the author's manuscript layout (footer with date and
+% "Page n of N", running head, full-width small captions), is used when LaTeX can find it: installed in TEXMFHOME,
+% or GTM_STY set for tools/render-pdf.R. It is never copied into the package. Without it: the plain article class.
+\IfFileExists{gtm.sty}{\usepackage{gtm}}{}
+\providecommand{\runningtitle}{}
+\renewcommand{\runningtitle}{DiallelAnalysisR}
+% XeLaTeX loads unicode-math, where amsmath's \boldsymbol fails on Greek letters: use \symbf with the TeX bold
+% style (bold italic lowercase Greek, bold upright capitals), as in the HTML
+\makeatletter
+\AtBeginDocument{\@ifpackageloaded{unicode-math}{\unimathsetup{bold-style=TeX}\renewcommand{\boldsymbol}[1]{\symbf{#1}}}{}}
+\makeatother
+% code and printed output (one Highlighting block per chunk, collapse = TRUE): long lines break instead of running
+% into the margin (in HTML they scroll); \small fits the 100-character lines of the code style
+\usepackage{fvextra}
+\RecustomVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,breakanywhere,commandchars=\\\{\},fontsize=\small}
+% the vignette macros win over a command of the same name from another package (e.g. \Call of algpseudocode)
+\newcommand{\vmacro}[1]{\providecommand{#1}{}\renewcommand{#1}}
+\input{_DiallelAnalysisR-macros.tex}

@@ -1,0 +1,154 @@
+---
+title: "Heterosis, maternal effects and Gardner and Eberhart"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Heterosis, maternal effects and Gardner and Eberhart}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+When the parents are grown beside their crosses, the crosses can be compared with the parents: the heterosis of each
+cross, and Gardner and Eberhart's split of the crosses into variety effects and heterosis. In a diallel with
+reciprocals, the reciprocal effects split into maternal and non-maternal parts. This vignette takes these three in
+turn.
+
+# Heterosis
+
+With the parents grown beside the crosses, `Heterosis()` gives for each cross the heterosis over the mid-parent
+$MP = (P_i + P_j)/2$, the better parent and, if a check variety is named, the standard variety, in percent, each with a
+$t$ test. With $B$ replicates the standard errors of the differences are $\sqrt{3MS_E/(2B)}$ for
+$F_{ij} - MP$ and $\sqrt{2MS_E/B}$ for the other two.
+
+```{r het}
+het <-
+  Heterosis(
+      y      = Yield
+    , Rep    = Rep
+    , Cross1 = Cross1
+    , Cross2 = Cross2
+    , data   = GriffingData2
+    , Check  = 3
+    , Better = c("higher", "lower")[1]
+    )
+het$StdErr
+head(x = het$Heterosis[order(-het$Heterosis$MP)], n = 6)
+```
+
+```{r het-plot, fig.height = 6}
+plot(x = het, which = c("MP", "BP", "SH", "residuals", "qq")[1])
+```
+
+For traits where a lower value is better (days to flowering, disease score), `Better = "lower"` takes the lower
+parent as the better one.
+
+# Maternal and non-maternal reciprocal effects
+
+Cockerham and Weir (1977) write the reciprocal effect of Methods 1 and 3 as $r_{ij} = m_i - m_j + n_{ij}$: a maternal
+effect of each parent and a non-maternal remainder. `Griffing(..., Reciprocal = "split")` splits the reciprocal line
+of the analysis of variance accordingly, on $P - 1$ and $(P - 1)(P - 2)/2$ degrees of freedom:
+
+```{r recip}
+rs <-
+  Griffing(
+      y          = Yield
+    , Rep        = Rep
+    , Cross1     = Cross1
+    , Cross2     = Cross2
+    , data       = GriffingData1
+    , Method     = 1
+    , Model      = 1
+    , Reciprocal = c("combined", "split")[2]
+    )
+rs$ANOVA
+round(x = rs$Maternal, digits = 3)
+round(x = rs$StdErr[c("mi", "mi_mj", "nij")], digits = 3)
+```
+
+Here neither part is significant: the reciprocal differences of this diallel are small and show no maternal pattern.
+
+# Gardner and Eberhart's Analyses II and III
+
+For parents and one set of crosses, Gardner and Eberhart (1966) model the parents by variety effects $v_j$ and the
+crosses by the mean of their parents plus heterosis. Analysis II splits the heterosis into average heterosis
+$\bar{h}$, variety heterosis $h_j$ and specific heterosis $s_{jj'}$:
+
+```{r ge2}
+ge2 <-
+  GardnerEberhart(
+      y        = Yield
+    , Rep      = Rep
+    , Cross1   = Cross1
+    , Cross2   = Cross2
+    , data     = GriffingData2
+    , Analysis = 2
+    , Model    = 1
+    )
+ge2$ANOVA
+ge2$Average
+```
+
+```{r ge2-plot}
+plot(x = ge2, which = c("effects", "specific", "residuals", "qq")[1])
+```
+
+Analysis III keeps the variety effects for the parents and analyses the crosses by general and specific combining
+ability, with average heterosis between the two; its gca and sca lines are Griffing's Method 4:
+
+```{r ge3}
+ge3 <-
+  GardnerEberhart(
+      y        = Yield
+    , Rep      = Rep
+    , Cross1   = Cross1
+    , Cross2   = Cross2
+    , data     = GriffingData2
+    , Analysis = 3
+    , Model    = 1
+    )
+ge3$ANOVA
+```
+
+# Summary
+
+`Heterosis()` compares each cross with its parents and a check; `Griffing(..., Reciprocal = "split")` asks whether
+the reciprocal differences come from the mother; `GardnerEberhart()` describes parents and crosses with one model of
+variety effects and heterosis.
+
+# References
+
+Cockerham, C. C. and Weir, B. S. (1977). Quadratic analyses of reciprocal crosses. *Biometrics*, 33(1), 187--203.
+
+Gardner, C. O. and Eberhart, S. A. (1966). Analysis and interpretation of the variety cross diallel and related
+populations. *Biometrics*, 22(3), 439--452.
+
+Murray, L. W., Ray, I. M., Dong, H. and Segovia-Lerma, A. (2003). Clarification and reevaluation of population-based
+diallel analyses: Gardner and Eberhart Analyses II and III revisited. *Crop Science*, 43(6), 1930--1937.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.

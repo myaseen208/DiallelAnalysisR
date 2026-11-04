@@ -1,0 +1,2 @@
+# One regular expression per line: lines matching it are not reported by tools/check-terms.R
+# (for a proper name or a data value that happens to match a banned word).

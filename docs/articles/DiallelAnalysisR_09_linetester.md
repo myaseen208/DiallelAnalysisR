@@ -1,0 +1,160 @@
+# Line by tester and North Carolina designs
+
+\\ \newcommand{\mY}{\mathbf{Y}} \newcommand{\mT}{\mathbf{T}}
+\newcommand{\mS}{\mathbf{S}} \newcommand{\mR}{\mathbf{R}}
+\newcommand{\vg}{\mathbf{g}} \newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}} \newcommand{\Cov}{\mathrm{Cov}} \\
+
+## 1 Abstract
+
+Not every crossing scheme is a diallel. In a line \\\times\\ tester
+experiment each of \\L\\ lines is crossed with each of \\T\\ testers;
+the North Carolina designs of Comstock and Robinson estimate additive
+and dominance variance from half-sib and full-sib families. Both are
+analysed from the plot data of a randomized complete block experiment,
+with the same result objects, plots and tables as the diallel analyses.
+
+## 2 Line \\\times\\ tester analysis
+
+[`LineTester()`](https://myaseen208.com/DiallelAnalysisR/reference/LineTester.md)
+gives Kempthorne’s analysis of \\L\\ lines crossed with \\T\\ testers:
+the split of the crosses into lines, testers and their interaction with
+the proportional contribution of each, the gca and sca effects with
+standard errors, and the genetic variances; `Inbreeding` is the
+inbreeding coefficient \\F\\ of the parents.
+
+``` r
+
+lt <-
+  LineTester(
+      y          = Yield
+    , Rep        = Rep
+    , Line       = Line
+    , Tester     = Tester
+    , data       = LineTesterData
+    , Inbreeding = 1
+    )
+lt
+```
+
+    Line x tester analysis: 8 lines, 3 testers, 3 replicates
+
+                  Df Sum Sq Mean Sq F value   Pr(>F)
+    Rep            2    427   213.3  14.894 1.03e-05 ***
+    Crosses       23   5469   237.8  16.607 2.76e-15 ***
+    Lines          7   3476   496.6  34.685 2.70e-16 ***
+    Testers        2   1038   519.0  36.244 3.54e-10 ***
+    Lines:Testers 14    955    68.2   4.762 2.76e-05 ***
+    Error         46    659    14.3
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+    Proportional contributions (%)
+            Lines       Testers Lines:Testers
+            63.57         18.98         17.45
+
+    Genetic components
+                        Components
+    gca_lines              47.6060
+    gca_testers            18.7824
+    gca                    35.1418
+    sca                    17.9554
+    gca/sca                 1.9572
+    Additive               70.2835
+    Dominance              17.9554
+    Dominance/Additive      0.2555
+    Degree of dominance     0.7148
+
+``` r
+
+round(x = lt$GCA.Lines, digits = 2)
+```
+
+       L1    L2    L3    L4    L5    L6    L7    L8
+     2.92 -9.28 -9.77 -1.63  9.74 -3.76  8.64  3.13 
+
+``` r
+
+round(x = lt$StdErr, digits = 3)
+```
+
+        gca_line   gca_tester          sca   gi_gj_line gi_gj_tester      sij_skl
+           1.261        0.772        2.185        1.784        1.092        3.090 
+
+``` r
+
+plot(x = lt, which = c("gca", "sca", "contribution", "biplot", "residuals", "qq")[1])
+```
+
+![](data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0nMS4wJyBlbmNvZGluZz0nVVRGLTgnID8+CjxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB4bWxuczp4bGluaz0naHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluaycgd2lkdGg9JzUwNC4wMHB0JyBoZWlnaHQ9JzMwMi40MHB0JyB2aWV3Qm94PScwIDAgNTA0LjAwIDMwMi40MCc+CjxnIGNsYXNzPSdzdmdsaXRlJz4KPGRlZnM+CiAgPHN0eWxlIHR5cGU9J3RleHQvY3NzJz48IVtDREFUQVsKICAgIC5zdmdsaXRlIGxpbmUsIC5zdmdsaXRlIHBvbHlsaW5lLCAuc3ZnbGl0ZSBwb2x5Z29uLCAuc3ZnbGl0ZSBwYXRoLCAuc3ZnbGl0ZSByZWN0LCAuc3ZnbGl0ZSBjaXJjbGUgewogICAgICBmaWxsOiBub25lOwogICAgICBzdHJva2U6ICMwMDAwMDA7CiAgICAgIHN0cm9rZS1saW5lY2FwOiByb3VuZDsKICAgICAgc3Ryb2tlLWxpbmVqb2luOiByb3VuZDsKICAgICAgc3Ryb2tlLW1pdGVybGltaXQ6IDEwLjAwOwogICAgfQogICAgLnN2Z2xpdGUgdGV4dCB7CiAgICAgIHdoaXRlLXNwYWNlOiBwcmU7CiAgICB9CiAgICAuc3ZnbGl0ZSBnLmdseXBoZ3JvdXAgcGF0aCB7CiAgICAgIGZpbGw6IGluaGVyaXQ7CiAgICAgIHN0cm9rZTogbm9uZTsKICAgIH0KICBdXT48L3N0eWxlPgo8L2RlZnM+CjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIHN0eWxlPSdzdHJva2U6IG5vbmU7IGZpbGw6ICNGRkZGRkY7Jy8+CjxkZWZzPgogIDxjbGlwUGF0aCBpZD0nY3BNQzR3TUh3MU1EUXVNREI4TUM0d01Id3pNREl1TkRBPSc+CiAgICA8cmVjdCB4PScwLjAwJyB5PScwLjAwJyB3aWR0aD0nNTA0LjAwJyBoZWlnaHQ9JzMwMi40MCcgLz4KICA8L2NsaXBQYXRoPgo8L2RlZnM+CjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHcxTURRdU1EQjhNQzR3TUh3ek1ESXVOREE9KSc+CjxyZWN0IHg9Jy0wLjAwMDAwMDAwMDAwMDA2NCcgeT0nMC4wMCcgd2lkdGg9JzUwNC4wMCcgaGVpZ2h0PSczMDIuNDAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogI0ZGRkZGRjsgZmlsbDogI0ZGRkZGRjsnIC8+CjwvZz4KPGRlZnM+CiAgPGNsaXBQYXRoIGlkPSdjcE16a3VNRFY4TWpZeExqZ3hmREkwTGpRNGZESTRNQzR5TlE9PSc+CiAgICA8cmVjdCB4PSczOS4wNScgeT0nMjQuNDgnIHdpZHRoPScyMjIuNzYnIGhlaWdodD0nMjU1Ljc2JyAvPgogIDwvY2xpcFBhdGg+CjwvZGVmcz4KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTXprdU1EVjhNall4TGpneGZESTBMalE0ZkRJNE1DNHlOUT09KSc+CjxyZWN0IHg9JzM5LjA1JyB5PScyNC40OCcgd2lkdGg9JzIyMi43NicgaGVpZ2h0PScyNTUuNzYnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgZmlsbDogI0ZGRkZGRjsnIC8+CjxsaW5lIHgxPSczOS4wNScgeTE9JzE1Mi4yMycgeDI9JzI2MS44MScgeTI9JzE1Mi4yMycgc3R5bGU9J3N0cm9rZS13aWR0aDogMC42NDsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cmVjdCB4PSc0NS44NCcgeT0nMTIxLjQxJyB3aWR0aD0nMTkuMDInIGhlaWdodD0nMzAuODInIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICMxRjRFOUU7JyAvPgo8cmVjdCB4PSc3My4wMCcgeT0nMTUyLjIzJyB3aWR0aD0nMTkuMDInIGhlaWdodD0nOTcuOTInIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICMxRjRFOUU7JyAvPgo8cmVjdCB4PScxMDAuMTcnIHk9JzE1Mi4yMycgd2lkdGg9JzE5LjAyJyBoZWlnaHQ9JzEwMy4wOCcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogYnV0dDsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlcjsgZmlsbDogIzFGNEU5RTsnIC8+CjxyZWN0IHg9JzEyNy4zNCcgeT0nMTUyLjIzJyB3aWR0aD0nMTkuMDInIGhlaWdodD0nMTcuMjUnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICMxRjRFOUU7JyAvPgo8cmVjdCB4PScxNTQuNTAnIHk9JzQ5LjQyJyB3aWR0aD0nMTkuMDInIGhlaWdodD0nMTAyLjgxJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2U6IG5vbmU7IHN0cm9rZS1saW5lY2FwOiBidXR0OyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBmaWxsOiAjMUY0RTlFOycgLz4KPHJlY3QgeD0nMTgxLjY3JyB5PScxNTIuMjMnIHdpZHRoPScxOS4wMicgaGVpZ2h0PSczOS42NCcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogYnV0dDsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlcjsgZmlsbDogIzFGNEU5RTsnIC8+CjxyZWN0IHg9JzIwOC44MycgeT0nNjEuMDMnIHdpZHRoPScxOS4wMicgaGVpZ2h0PSc5MS4yMScgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogYnV0dDsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlcjsgZmlsbDogIzFGNEU5RTsnIC8+CjxyZWN0IHg9JzIzNi4wMCcgeT0nMTE5LjE4JyB3aWR0aD0nMTkuMDInIGhlaWdodD0nMzMuMDUnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICMxRjRFOUU7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc1MS45NSwxMDguMTAgNTguNzQsMTA4LjEwICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc1NS4zNCwxMDguMTAgNTUuMzQsMTM0LjcyICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc1MS45NSwxMzQuNzIgNTguNzQsMTM0LjcyICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc3OS4xMiwyMzYuODQgODUuOTEsMjM2Ljg0ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc4Mi41MSwyMzYuODQgODIuNTEsMjYzLjQ2ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc3OS4xMiwyNjMuNDYgODUuOTEsMjYzLjQ2ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxMDYuMjgsMjQyLjAwIDExMy4wNywyNDIuMDAgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzEwOS42OCwyNDIuMDAgMTA5LjY4LDI2OC42MiAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMTA2LjI4LDI2OC42MiAxMTMuMDcsMjY4LjYyICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxMzMuNDUsMTU2LjE3IDE0MC4yNCwxNTYuMTcgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzEzNi44NCwxNTYuMTcgMTM2Ljg0LDE4Mi43OSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMTMzLjQ1LDE4Mi43OSAxNDAuMjQsMTgyLjc5ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxNjAuNjEsMzYuMTEgMTY3LjQxLDM2LjExICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxNjQuMDEsMzYuMTEgMTY0LjAxLDYyLjczICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxNjAuNjEsNjIuNzMgMTY3LjQxLDYyLjczICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxODcuNzgsMTc4LjU3IDE5NC41NywxNzguNTcgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzE5MS4xOCwxNzguNTcgMTkxLjE4LDIwNS4xOSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMTg3Ljc4LDIwNS4xOSAxOTQuNTcsMjA1LjE5ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScyMTQuOTUsNDcuNzIgMjIxLjc0LDQ3LjcyICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScyMTguMzQsNDcuNzIgMjE4LjM0LDc0LjM0ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScyMTQuOTUsNzQuMzQgMjIxLjc0LDc0LjM0ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScyNDIuMTEsMTA1Ljg3IDI0OC45MSwxMDUuODcgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzI0NS41MSwxMDUuODcgMjQ1LjUxLDEzMi40OSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMjQyLjExLDEzMi40OSAyNDguOTEsMTMyLjQ5ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8L2c+CjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHcxTURRdU1EQjhNQzR3TUh3ek1ESXVOREE9KSc+CjwvZz4KPGRlZnM+CiAgPGNsaXBQYXRoIGlkPSdjcE1qWTNMakk1ZkRRNU1DNHdOWHd5TkM0ME9Id3lPREF1TWpVPSc+CiAgICA8cmVjdCB4PScyNjcuMjknIHk9JzI0LjQ4JyB3aWR0aD0nMjIyLjc2JyBoZWlnaHQ9JzI1NS43NicgLz4KICA8L2NsaXBQYXRoPgo8L2RlZnM+CjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1qWTNMakk1ZkRRNU1DNHdOWHd5TkM0ME9Id3lPREF1TWpVPSknPgo8cmVjdCB4PScyNjcuMjknIHk9JzI0LjQ4JyB3aWR0aD0nMjIyLjc2JyBoZWlnaHQ9JzI1NS43Nicgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBmaWxsOiAjRkZGRkZGOycgLz4KPGxpbmUgeDE9JzI2Ny4yOScgeTE9JzE1Mi4yMycgeDI9JzQ5MC4wNScgeTI9JzE1Mi4yMycgc3R5bGU9J3N0cm9rZS13aWR0aDogMC42NDsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cmVjdCB4PScyODQuNjknIHk9JzExMi4yNCcgd2lkdGg9JzQ4LjczJyBoZWlnaHQ9JzQwLjAwJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2U6IG5vbmU7IHN0cm9rZS1saW5lY2FwOiBidXR0OyBzdHJva2UtbGluZWpvaW46IG1pdGVyOyBmaWxsOiAjMUY0RTlFOycgLz4KPHJlY3QgeD0nMzU0LjMxJyB5PScxMzcuNDcnIHdpZHRoPSc0OC43MycgaGVpZ2h0PScxNC43Nicgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlOiBub25lOyBzdHJva2UtbGluZWNhcDogYnV0dDsgc3Ryb2tlLWxpbmVqb2luOiBtaXRlcjsgZmlsbDogIzFGNEU5RTsnIC8+CjxyZWN0IHg9JzQyMy45MicgeT0nMTUyLjIzJyB3aWR0aD0nNDguNzMnIGhlaWdodD0nNTQuNzYnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZTogbm9uZTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7IHN0cm9rZS1saW5lam9pbjogbWl0ZXI7IGZpbGw6ICMxRjRFOUU7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSczMDAuMzUsMTA0LjA5IDMxNy43NiwxMDQuMDkgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzMwOS4wNiwxMDQuMDkgMzA5LjA2LDEyMC4zOSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMzAwLjM1LDEyMC4zOSAzMTcuNzYsMTIwLjM5ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSczNjkuOTcsMTI5LjMyIDM4Ny4zNywxMjkuMzIgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzM3OC42NywxMjkuMzIgMzc4LjY3LDE0NS42MyAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMzY5Ljk3LDE0NS42MyAzODcuMzcsMTQ1LjYzICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc0MzkuNTgsMTk4Ljg0IDQ1Ni45OSwxOTguODQgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAxLjA3OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzQ0OC4yOCwxOTguODQgNDQ4LjI4LDIxNS4xNCAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDEuMDc7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nNDM5LjU4LDIxNS4xNCA0NTYuOTksMjE1LjE0ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMS4wNzsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8L2c+CjxnIGNsaXAtcGF0aD0ndXJsKCNjcE1DNHdNSHcxTURRdU1EQjhNQzR3TUh3ek1ESXVOREE9KSc+CjwvZz4KPGRlZnM+CiAgPGNsaXBQYXRoIGlkPSdjcE16a3VNRFY4TWpZeExqZ3hmRGN1T1RkOE1qUXVORGc9Jz4KICAgIDxyZWN0IHg9JzM5LjA1JyB5PSc3Ljk3JyB3aWR0aD0nMjIyLjc2JyBoZWlnaHQ9JzE2LjUxJyAvPgogIDwvY2xpcFBhdGg+CjwvZGVmcz4KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTXprdU1EVjhNall4TGpneGZEY3VPVGQ4TWpRdU5EZz0pJz4KPHRleHQgeD0nMTUwLjQzJyB5PScxOS4xNCcgdGV4dC1hbmNob3I9J21pZGRsZScgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4O2ZpbGw6ICMxQTFBMUE7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzE5LjQ3cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+TGluZXM8L3RleHQ+CjwvZz4KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTUM0d01IdzFNRFF1TURCOE1DNHdNSHd6TURJdU5EQT0pJz4KPC9nPgo8ZGVmcz4KICA8Y2xpcFBhdGggaWQ9J2NwTWpZM0xqSTVmRFE1TUM0d05YdzNMamszZkRJMExqUTQnPgogICAgPHJlY3QgeD0nMjY3LjI5JyB5PSc3Ljk3JyB3aWR0aD0nMjIyLjc2JyBoZWlnaHQ9JzE2LjUxJyAvPgogIDwvY2xpcFBhdGg+CjwvZGVmcz4KPGcgY2xpcC1wYXRoPSd1cmwoI2NwTWpZM0xqSTVmRFE1TUM0d05YdzNMamszZkRJMExqUTQpJz4KPHRleHQgeD0nMzc4LjY3JyB5PScxOS4xNCcgdGV4dC1hbmNob3I9J21pZGRsZScgc3R5bGU9J2ZvbnQtc2l6ZTogOC44MHB4O2ZpbGw6ICMxQTFBMUE7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzI0LjQ3cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+VGVzdGVyczwvdGV4dD4KPC9nPgo8ZyBjbGlwLXBhdGg9J3VybCgjY3BNQzR3TUh3MU1EUXVNREI4TUM0d01Id3pNREl1TkRBPSknPgo8cG9seWxpbmUgcG9pbnRzPSczOS4wNSwyODAuMjUgMjYxLjgxLDI4MC4yNSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmU7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc1NS4zNCwyNzYuODQgNTUuMzQsMjgwLjI1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc4Mi41MSwyNzYuODQgODIuNTEsMjgwLjI1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxMDkuNjgsMjc2Ljg0IDEwOS42OCwyODAuMjUgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjg1OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzEzNi44NCwyNzYuODQgMTM2Ljg0LDI4MC4yNSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMTY0LjAxLDI3Ni44NCAxNjQuMDEsMjgwLjI1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPScxOTEuMTgsMjc2Ljg0IDE5MS4xOCwyODAuMjUgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjg1OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzIxOC4zNCwyNzYuODQgMjE4LjM0LDI4MC4yNSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMjQ1LjUxLDI3Ni44NCAyNDUuNTEsMjgwLjI1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8dGV4dCB4PSc1NS4zNCcgeT0nMjkyLjI3JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzEwLjk4cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+TDE8L3RleHQ+Cjx0ZXh0IHg9JzgyLjUxJyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MMjwvdGV4dD4KPHRleHQgeD0nMTA5LjY4JyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MMzwvdGV4dD4KPHRleHQgeD0nMTM2Ljg0JyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MNDwvdGV4dD4KPHRleHQgeD0nMTY0LjAxJyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MNTwvdGV4dD4KPHRleHQgeD0nMTkxLjE4JyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MNjwvdGV4dD4KPHRleHQgeD0nMjE4LjM0JyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MNzwvdGV4dD4KPHRleHQgeD0nMjQ1LjUxJyB5PScyOTIuMjcnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHN0eWxlPSdmb250LXNpemU6IDkuOTBweDsgZm9udC1mYW1pbHk6ICJOaW1idXMgUm9tYW4iOycgdGV4dExlbmd0aD0nMTAuOThweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5MODwvdGV4dD4KPHBvbHlsaW5lIHBvaW50cz0nMjY3LjI5LDI4MC4yNSA0OTAuMDUsMjgwLjI1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IHNxdWFyZTsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzMwOS4wNiwyNzYuODQgMzA5LjA2LDI4MC4yNSAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nMzc4LjY3LDI3Ni44NCAzNzguNjcsMjgwLjI1ICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8cG9seWxpbmUgcG9pbnRzPSc0NDguMjgsMjc2Ljg0IDQ0OC4yOCwyODAuMjUgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjg1OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjx0ZXh0IHg9JzMwOS4wNicgeT0nMjkyLjI3JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzEwLjk4cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+VDE8L3RleHQ+Cjx0ZXh0IHg9JzM3OC42NycgeT0nMjkyLjI3JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzEwLjk4cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+VDI8L3RleHQ+Cjx0ZXh0IHg9JzQ0OC4yOCcgeT0nMjkyLjI3JyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzEwLjk4cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+VDM8L3RleHQ+Cjxwb2x5bGluZSBwb2ludHM9JzM5LjA1LDI4MC4yNSAzOS4wNSwyNC40OCAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmU7JyAvPgo8dGV4dCB4PSczMy41NycgeT0nMjYxLjAzJyB0ZXh0LWFuY2hvcj0nZW5kJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzEzLjE3cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+LTEwPC90ZXh0Pgo8dGV4dCB4PSczMy41NycgeT0nMjA4LjI3JyB0ZXh0LWFuY2hvcj0nZW5kJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzguMjNweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz4tNTwvdGV4dD4KPHRleHQgeD0nMzMuNTcnIHk9JzE1NS41MScgdGV4dC1hbmNob3I9J2VuZCcgc3R5bGU9J2ZvbnQtc2l6ZTogOS45MHB4OyBmb250LWZhbWlseTogIk5pbWJ1cyBSb21hbiI7JyB0ZXh0TGVuZ3RoPSc0Ljk0cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+MDwvdGV4dD4KPHRleHQgeD0nMzMuNTcnIHk9JzEwMi43NCcgdGV4dC1hbmNob3I9J2VuZCcgc3R5bGU9J2ZvbnQtc2l6ZTogOS45MHB4OyBmb250LWZhbWlseTogIk5pbWJ1cyBSb21hbiI7JyB0ZXh0TGVuZ3RoPSc0Ljk0cHgnIGxlbmd0aEFkanVzdD0nc3BhY2luZ0FuZEdseXBocyc+NTwvdGV4dD4KPHRleHQgeD0nMzMuNTcnIHk9JzQ5Ljk4JyB0ZXh0LWFuY2hvcj0nZW5kJyBzdHlsZT0nZm9udC1zaXplOiA5LjkwcHg7IGZvbnQtZmFtaWx5OiAiTmltYnVzIFJvbWFuIjsnIHRleHRMZW5ndGg9JzkuODhweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz4xMDwvdGV4dD4KPHBvbHlsaW5lIHBvaW50cz0nNDIuNDUsMjU3Ljc2IDM5LjA1LDI1Ny43NiAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nNDIuNDUsMjA1LjAwIDM5LjA1LDIwNS4wMCAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nNDIuNDUsMTUyLjIzIDM5LjA1LDE1Mi4yMyAnIHN0eWxlPSdzdHJva2Utd2lkdGg6IDAuODU7IHN0cm9rZS1saW5lY2FwOiBidXR0OycgLz4KPHBvbHlsaW5lIHBvaW50cz0nNDIuNDUsOTkuNDcgMzkuMDUsOTkuNDcgJyBzdHlsZT0nc3Ryb2tlLXdpZHRoOiAwLjg1OyBzdHJva2UtbGluZWNhcDogYnV0dDsnIC8+Cjxwb2x5bGluZSBwb2ludHM9JzQyLjQ1LDQ2LjcxIDM5LjA1LDQ2LjcxICcgc3R5bGU9J3N0cm9rZS13aWR0aDogMC44NTsgc3Ryb2tlLWxpbmVjYXA6IGJ1dHQ7JyAvPgo8dGV4dCB0cmFuc2Zvcm09J3RyYW5zbGF0ZSgxNS4yNSwxNTIuMzcpIHJvdGF0ZSgtOTApJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBzdHlsZT0nZm9udC1zaXplOiAxMS4wMHB4OyBmb250LWZhbWlseTogIk5pbWJ1cyBSb21hbiI7JyB0ZXh0TGVuZ3RoPScxNDguMDBweCcgbGVuZ3RoQWRqdXN0PSdzcGFjaW5nQW5kR2x5cGhzJz5nY2EgZWZmZWN0ICgrLy0gb25lIHN0YW5kYXJkIGVycm9yKTwvdGV4dD4KPC9nPgo8L2c+Cjwvc3ZnPgo=)
+
+## 3 North Carolina designs
+
+[`NCDesign()`](https://myaseen208.com/DiallelAnalysisR/reference/NCDesign.md)
+analyses the three designs of Comstock and Robinson: females nested in
+males (Design I), males crossed with females (Design II), and \\F_2\\
+males backcrossed to both inbred parents (Design III). Each gives the
+additive and dominance variances and the average degree of dominance
+\\\sqrt{2\sigma^2_D/\sigma^2_A}\\.
+
+``` r
+
+nc <- lapply(X = 1:3, FUN = function(k) {
+  NCDesign(
+      y          = Yield
+    , Rep        = Rep
+    , Male       = Male
+    , Female     = Female
+    , data       = NCData[NCData$Design == k, ]
+    , Design     = k
+    , Inbreeding = 0
+    )
+})
+nc[[2]]$ANOVA
+```
+
+                  Df Sum Sq Mean Sq F value    Pr(>F)
+    Rep            2 280.67 140.333 13.6687 3.371e-05 ***
+    Males          4 250.42  62.605  2.9919  0.062947 .
+    Females        3 517.45 172.482  8.2428  0.003026 **
+    Males:Females 12 251.10  20.925  2.0382  0.047573 *
+    Error         38 390.13  10.267
+    ---
+    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+``` r
+
+round(
+    x      = sapply(
+        X   = nc
+      , FUN = function(z) z$Genetic.Components[c("Additive", "Dominance", "Degree of dominance"),
+                                                                       "Components"]
+      )
+  , digits = 3
+  )
+```
+
+           [,1]   [,2]   [,3]
+    [1,] 11.867 27.154 58.248
+    [2,] 56.203 14.211 14.806
+    [3,]  3.078  1.023  0.713
+
+## 4 Summary
+
+[`LineTester()`](https://myaseen208.com/DiallelAnalysisR/reference/LineTester.md)
+gives combining ability and the contribution of lines, testers and their
+interaction;
+[`NCDesign()`](https://myaseen208.com/DiallelAnalysisR/reference/NCDesign.md)
+gives the additive and dominance variances of Designs I, II and III.
+
+## 5 References
+
+Comstock, R. E. and Robinson, H. F. (1948). The components of genetic
+variance in populations of biparental progenies and their use in
+estimating the average degree of dominance. *Biometrics*, 4(4), 254–266.
+
+Kempthorne, O. (1957). *An Introduction to Genetic Statistics*. John
+Wiley and Sons, New York.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in
+Quantitative Genetic Analysis*. Kalyani Publishers, New Delhi.

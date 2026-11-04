@@ -1,0 +1,129 @@
+---
+title: "Diallels over environments and the biplot"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Diallels over environments and the biplot}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+A diallel grown in several environments shows whether combining ability is stable. `GriffingEnv()` pools Griffing's
+analyses over environments and splits each line into its main effect and its interaction with environments. The
+biplot of the cross means shows the best general combiners and the best crosses on one graph.
+
+# A diallel over several environments
+
+`GriffingEnv()` pools Griffing's analyses of the same diallel in several environments. Each line of the analysis is
+a projection of the table of cross means, so the sum over environments of a line's sum of squares splits into the
+line itself and its interaction with environments. The example simulates six parents of Method 2 in three
+environments with gca $\times$ environment effects:
+
+```{r env}
+d <-
+  DiallelSim(
+      Parents = 6
+    , Method  = 2
+    , Rep     = 3
+    , Env     = 3
+    , Mean    = 50
+    , gca     = 4
+    , sca     = 2
+    , rec     = 0
+    , gcaEnv  = 1.5
+    , scaEnv  = 1
+    , EnvSD   = 2
+    , Block   = 1
+    , Error   = 3
+    , seed    = 1
+    )
+fe <-
+  GriffingEnv(
+      y      = y
+    , Rep    = Rep
+    , Cross1 = Cross1
+    , Cross2 = Cross2
+    , Env    = Env
+    , data   = d
+    , Method = 2
+    , Model  = 2
+    )
+fe$ANOVA
+fe$Genetic.Components
+```
+
+In Model 2 gca and sca are tested against their interactions with environments. The gca effects in each environment
+show which parents combine well everywhere:
+
+```{r env-plot}
+plot(x = fe, which = c("gca", "gcaenv", "sca", "residuals", "qq")[2])
+```
+
+# A biplot of the crosses
+
+`plot(fit, which = "biplot")` draws the table of cross means as a biplot (Yan and Hunt 2002): the table of a cross
+and its reciprocal averaged, the selfs left out and filled by a rank-two fit, centred on the tester (column) means,
+and its first two principal components with the singular values split between parents and testers. Parents far
+along the average-tester axis (dashed) combine well in general; a parent close to a tester's vector combines well
+with that tester.
+
+```{r biplot, fig.height = 6}
+g4 <-
+  Griffing(
+      y          = Yield
+    , Rep        = Rep
+    , Cross1     = Cross1
+    , Cross2     = Cross2
+    , data       = GriffingData4
+    , Method     = 4
+    , Model      = 1
+    , Reciprocal = c("combined", "split")[1]
+    )
+plot(x = g4, which = c("gca", "sca", "biplot", "residuals", "qq")[3])
+```
+
+When specific combining ability is large the two axes show mainly the sca pattern; the parent with the largest gca
+effect is printed in bold.
+
+# Summary
+
+The gca $\times$ environment and sca $\times$ environment lines show whether combining ability holds across
+environments; the biplot shows which parents and crosses stand out.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.
+
+Yan, W. and Hunt, L. A. (2002). Biplot analysis of diallel data. *Crop Science*, 42(1), 21--30.
+
+Zhang, Y. and Kang, M. S. (1997). DIALLEL-SAS: a SAS program for Griffing's diallel analyses. *Agronomy Journal*,
+89(2), 176--182.

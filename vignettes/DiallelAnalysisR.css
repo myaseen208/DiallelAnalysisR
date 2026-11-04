@@ -1,0 +1,7 @@
+/* Vignette styles (synced from SKILL.qmd). Wide display maths, tables and output scroll inside the column. */
+.math.display, mjx-container[display="true"] { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+pre, table { max-width: 100%; }
+div.cell-output pre, .sourceCode { overflow-x: auto; }
+.table-responsive, table { display: block; overflow-x: auto; }
+div.cell-output pre code, div.cell-output-stdout pre code, div.cell-output-stderr pre code { white-space: pre-wrap; word-break: break-word; }
+p code, li code, td code { white-space: normal; overflow-wrap: anywhere; }

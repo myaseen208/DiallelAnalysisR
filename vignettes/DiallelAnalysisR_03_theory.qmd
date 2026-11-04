@@ -1,0 +1,115 @@
+---
+title: "Theory and notation"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Theory and notation}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+The models behind the analyses, the notation used in the help pages and vignettes, and the expected mean squares
+that turn mean squares into variance components.
+
+# Notation
+
+Scalars are upper-case letters in normal face, indices lower-case italic, vectors lower-case bold and matrices
+upper-case bold; elements of vectors and matrices keep their letter in normal face.
+
+```{r notation}
+nt <-
+  da_notation(
+      format = c("table", "path", "tex")[1]
+    )
+nt[, symbol := paste0("$", symbol, "$")]
+nt[, argument := ifelse(test = nzchar(argument), yes = paste0("`", argument, "`"), no = "")]
+knitr::kable(x = nt[, .(symbol, kind, meaning, argument)])
+```
+
+# The diallel model
+
+With $P$ parents in $B$ replicates, the mean of cross $i \times j$ (female $i$, male $j$) is
+$$
+Y_{ij} = \mu + g_i + g_j + S_{ij} + R_{ij} + \bar{e}_{ij}, \qquad S_{ij} = S_{ji}, \quad R_{ij} = -R_{ji},
+$$
+where $\vg$ holds the general combining ability (gca) effects of the parents, $\mS$ the specific combining ability
+(sca) effects of the crosses and $\mR$ the reciprocal effects (Griffing 1956). The error of a cell mean has variance
+$\sigma^2_m = \sigma^2/B$, estimated by $MS_E/B$ from the block analysis of the plot data.
+
+# Least squares
+
+The vector of cell means splits into orthogonal parts: the mean, the gca part, the sca part and the reciprocal part.
+The sums of squares of the analysis of variance are the squared lengths of these parts, and Griffing's formulas are
+their closed forms. The package computes the closed forms and its tests check them against the explicit projection
+for every method and several numbers of parents (vignette 13).
+
+# Fixed and random models
+
+In the fixed model the effects are constants and are estimated with their standard errors. In the random model
+$g_i$, $S_{ij}$ and $R_{ij}$ are independent with variances $\sigma^2_g$, $\sigma^2_s$, $\sigma^2_r$ and the mean
+squares have expectations (Method 1)
+$$
+\E(MS_g) = \sigma^2_m + \frac{2(P-1)}{P}\sigma^2_s + 2P\sigma^2_g, \quad
+\E(MS_s) = \sigma^2_m + \frac{2(P^2-P+1)}{P^2}\sigma^2_s, \quad
+\E(MS_r) = \sigma^2_m + 2\sigma^2_r .
+$$
+Solving these equations with the observed mean squares gives the variance components; for non-inbred parents without
+epistasis $\sigma^2_A = 2\sigma^2_g$ and $\sigma^2_D = \sigma^2_s$.
+
+```{r ems}
+P <- 8
+rbind(
+    Method1 = c(gca = 2 * P, sca_in_gca = 2 * (P - 1) / P, sca = 2 * (P^2 - P + 1) / P^2)
+  , Method2 = c(P + 2, 1, 1)
+  , Method3 = c(2 * (P - 2), 2, 2)
+  , Method4 = c(P - 2, 1, 1)
+  )
+```
+
+# Hayman's model
+
+Hayman (1954) works with the arrays of the diallel table (the progeny of one parent) after averaging the reciprocal
+crosses. The variance $V_r$ of array $r$ and its covariance $W_r$ with the parents lie, under the additive-dominance
+model, on a line of unit slope; the components $D$ (additive), $H_1$ and $H_2$ (dominance), $F$ and $h^2$ follow from
+the variances and covariances of the arrays (vignette 06).
+
+# Summary
+
+All analyses rest on the same table of cell means and the same error mean square; the fixed model estimates effects,
+the random model variance components, and Hayman's approach the components of gene action.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.
+
+Hayman, B. I. (1954). The theory and analysis of diallel crosses. *Genetics*, 39(6), 789--809.
+
+Hayman, B. I. (1954). The analysis of variance of diallel tables. *Biometrics*, 10(2), 235--244.
+
+Mather, K. and Jinks, J. L. (1982). *Biometrical Genetics*, 3rd edition. Chapman and Hall, London.

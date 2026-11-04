@@ -1,0 +1,14 @@
+::: {.content-visible when-format="html"}
+::: {.hidden}
+$$
+\newcommand{\mY}{\mathbf{Y}}
+\newcommand{\mT}{\mathbf{T}}
+\newcommand{\mS}{\mathbf{S}}
+\newcommand{\mR}{\mathbf{R}}
+\newcommand{\vg}{\mathbf{g}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+$$
+:::
+:::

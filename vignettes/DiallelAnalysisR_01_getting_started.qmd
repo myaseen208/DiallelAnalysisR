@@ -1,0 +1,152 @@
+---
+title: "Getting started with DiallelAnalysisR"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Getting started with DiallelAnalysisR}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+DiallelAnalysisR analyses diallel crosses laid out in randomized complete blocks. This vignette takes one data set,
+an eight-parent diallel with reciprocals, from the plot data to the analysis of variance, the combining-ability
+effects with their standard errors and the plots, in a few minutes of reading. Each later vignette takes one part
+further.
+
+# The data
+
+Each row is one plot: the female parent (`Cross1`), the male parent (`Cross2`), the replicate (`Rep`) and the yield.
+
+```{r data}
+head(GriffingData1)
+dim(GriffingData1)
+with(data = GriffingData1, expr = table(Cross1, Cross2))[1:4, 1:4]
+```
+
+The 8 parents, their 28 crosses and the 28 reciprocal crosses (64 cells) are each grown in 4 replicates.
+
+# One analysis
+
+Griffing's Method 1 (parents, $F_1$ and reciprocals) with the fixed-effects model (Model 1):
+
+```{r analysis}
+fit <-
+  Griffing(
+      y          = Yield
+    , Rep        = Rep
+    , Cross1     = Cross1
+    , Cross2     = Cross2
+    , data       = GriffingData1
+    , Method     = 1
+    , Model      = 1
+    , Reciprocal = c("combined", "split")[1]
+    )
+fit
+```
+
+The result is the list that `Griffing()` has always returned, with a class that gives it methods:
+
+```{r summary}
+summary(fit)
+```
+
+# The analysis of variance
+
+```{r anova}
+knitr::kable(x = fit$ANOVA, digits = 3)
+```
+
+General and specific combining ability are both highly significant; the reciprocal differences are not. The mean
+squares are on the scale of a cell mean, so the error line is $MS_E/B$, the residual mean square of the block
+analysis divided by the number of replicates.
+
+# Effects and standard errors
+
+```{r effects}
+round(x = fit$GCA, digits = 3)
+round(x = fit$StdErr, digits = 3)
+```
+
+Parents 3 and 7 are the best general combiners, parent 8 the poorest. A difference between two gca effects larger
+than about twice `gi_gj` is significant at about the 5% level.
+
+# Plots
+
+```{r plot-gca}
+plot(fit)
+```
+
+```{r plot-sca, fig.height = 5}
+plot(fit, which = "sca")
+```
+
+# The usual model functions
+
+`summary()` adds the $t$ tests of every gca effect and the crosses with the largest sca effects; `anova()`, `coef()`,
+`vcov()`, `confint()`, `fitted()`, `residuals()` and `predict()` work as for other models in R.
+
+```{r model-functions}
+summary(object = fit, top = 5)
+head(confint(object = fit, parm = NULL, level = 0.95), 8)
+predict(
+    object  = fit
+  , newdata = data.frame(Cross1 = c(3, 3), Cross2 = c(7, 8))
+  , type    = c("gca", "full")[1]
+  )
+```
+
+The residuals of the block analysis check its assumptions:
+
+```{r residuals}
+plot(x = fit, which = c("gca", "sca", "residuals", "qq")[3])
+plot(x = fit, which = c("gca", "sca", "residuals", "qq")[4])
+```
+
+# Tables for a report
+
+Any component converts to a table, with the row names in a column `term`:
+
+```{r table}
+data.table::as.data.table(fit, component = "ANOVA")
+```
+
+# Summary
+
+One call of `Griffing()` gives the analysis of variance, the effects with their standard errors and the variance
+components; `plot()` draws the effects. Vignette 02 helps choose an analysis; vignettes 04 to 07 explain Griffing's,
+Hayman's and the partial diallel analyses, 08 to 11 heterosis, related designs, environments and planning, and 12 the
+tables for papers and the interactive application. Vignettes 13 to 15 cover validation, speed and extending the
+package.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.

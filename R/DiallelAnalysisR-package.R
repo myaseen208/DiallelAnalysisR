@@ -1,0 +1,81 @@
+#' DiallelAnalysisR: Diallel Analysis, Heterosis and Related Mating Designs
+#'
+#' @description
+#' \pkg{DiallelAnalysisR} analyses diallel crosses of plant-breeding experiments laid out in randomized complete
+#' blocks: Griffing's (1956) four methods and two models, Hayman's (1954) analysis with the \eqn{W_r}{Wr}-\eqn{V_r}{Vr}
+#' graph and the components of variation, the partial diallel between two groups of parents, heterosis, Gardner and
+#' Eberhart's models, line by tester and North Carolina designs, diallels over environments, simulation and planning,
+#' tables for papers and an interactive application.
+#'
+#' @details
+#' \strong{Functions.}
+#' \itemize{
+#'   \item \code{\link{Griffing}}: combining-ability analysis by Griffing's Methods 1 to 4 and Models 1 (fixed) and 2
+#'     (random): analysis of variance, gca, sca and reciprocal effects with standard errors, variance components.
+#'   \item \code{\link{Hayman}}: Hayman's analysis of variance, the \eqn{W_r}{Wr}-\eqn{V_r}{Vr} analysis and graph,
+#'     the components \eqn{D}{D}, \eqn{H_1}{H1}, \eqn{H_2}{H2}, \eqn{F}{F}, \eqn{h^2}{h2}, \eqn{E}{E}, genetic ratios
+#'     and tests of the additive-dominance model.
+#'   \item \code{\link{PartialDiallel}}: crosses between two groups of parents: gca of each group, sca, variance
+#'     components.
+#'   \item \code{\link{GriffingMeans}}: Griffing's analysis of a table of cross means; \code{\link{GriffingEnv}}: over
+#'     several environments.
+#'   \item \code{\link{Heterosis}}: mid-parent, better-parent and standard heterosis with \eqn{t}{t} tests.
+#'   \item \code{\link{GardnerEberhart}}: Gardner and Eberhart's Analyses II and III.
+#'   \item \code{\link{LineTester}}, \code{\link{NCDesign}}: line by tester analysis; North Carolina designs I to III.
+#'   \item \code{\link{DiallelSim}}, \code{\link{DiallelPower}}: simulated diallels and the power of the tests.
+#'   \item \code{\link{da_export}}: the main tables in Word, LaTeX, HTML, Markdown or CSV; \code{\link{DiallelApp}}:
+#'     the interactive application.
+#' }
+#' Every analysis returns the named list documented on its help page, with a class and the methods \code{print},
+#' \code{summary}, \code{plot} and \code{as.data.table}; see \code{\link{da-methods}}. Utilities:
+#' \code{\link{da_theme}}, \code{\link{da_save}}, \code{\link{da_notation}}, \code{\link{da_reference}}.
+#'
+#' \strong{Data.} \code{\link{GriffingData1}} (complete diallel of eight parents), its subsets
+#' \code{\link{GriffingData2}}, \code{\link{GriffingData3}}, \code{\link{GriffingData4}} for Methods 2 to 4,
+#' \code{\link{HaymanData}}, \code{\link{PartialDiallelData}} (ten by four parents), \code{\link{Griffing56}}
+#' (Griffing's 1956 maize example), \code{\link{LineTesterData}} and \code{\link{NCData}}.
+#'
+#' \strong{Vignettes.} Start with \code{vignette("DiallelAnalysisR_01_getting_started", package =
+#' "DiallelAnalysisR")}; \code{browseVignettes("DiallelAnalysisR")} lists all of them, each as HTML and as PDF.
+#'
+#' @section Notation:
+#' Scalars are upper-case letters in normal face, indices lower-case italic, vectors lower-case bold and matrices
+#' upper-case bold; elements of vectors and matrices keep their letter in normal face. The full table is
+#' \code{da_notation()}.
+#' \tabular{ll}{
+#'   \eqn{P}{P}, \eqn{B}{B} \tab number of parents, number of replicates (blocks) \cr
+#'   \eqn{i}{i}, \eqn{j}{j} \tab female and male parent of a cross \cr
+#'   \eqn{\mathbf{Y}}{Y}, \eqn{Y_{ij}}{Y_ij} \tab matrix of cell means, mean of cross \eqn{i \times j}{i x j} \cr
+#'   \eqn{\mathbf{g}}{g}, \eqn{g_i}{g_i} \tab vector of gca effects, gca effect of parent \eqn{i}{i} \cr
+#'   \eqn{\mathbf{S}}{S}, \eqn{\mathbf{R}}{R} \tab matrices of sca and reciprocal effects \cr
+#'   \eqn{\sigma^2_g}{sigma^2_g}, \eqn{\sigma^2_s}{sigma^2_s}, \eqn{\sigma^2_r}{sigma^2_r} \tab variances of gca, sca
+#'     and reciprocal effects (random model) \cr
+#'   \eqn{MS_E}{MS_E}, \eqn{\sigma^2_m}{sigma^2_m} \tab error mean square, error variance of a cell mean \cr
+#'   \eqn{V_r}{Vr}, \eqn{W_r}{Wr} \tab variance of array \eqn{r}{r}, its covariance with the parents \cr
+#'   \eqn{D}{D}, \eqn{H_1}{H1}, \eqn{H_2}{H2}, \eqn{F}{F} \tab Hayman's components of variation \cr
+#' }
+#'
+#' @references
+#' Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+#' \emph{Australian Journal of Biological Sciences}, \strong{9}(4), 463--493. \doi{10.1071/BI9560463}
+#'
+#' Hayman, B. I. (1954). The theory and analysis of diallel crosses. \emph{Genetics}, \strong{39}(6), 789--809.
+#' \doi{10.1093/genetics/39.6.789}
+#'
+#' Hayman, B. I. (1954). The analysis of variance of diallel tables. \emph{Biometrics}, \strong{10}(2), 235--244.
+#' \doi{10.2307/3001877}
+#'
+#' Kempthorne, O. and Curnow, R. N. (1961). The partial diallel cross. \emph{Biometrics}, \strong{17}(2), 229--250.
+#' \doi{10.2307/2527989}
+#'
+#' Singh, R. K. and Chaudhary, B. D. (2004). \emph{Biometrical Methods in Quantitative Genetic Analysis}. Kalyani
+#' Publishers, New Delhi.
+#' @author Muhammad Yaseen (\email{myaseen208@@gmail.com}), ORCID 0000-0002-5923-1714; Kent M. Eskridge; Pedro A. M.
+#'   Barbosa; Yuhang Guo.
+#' @seealso \code{\link{da-methods}}, \code{\link{da_notation}}
+#' @importFrom data.table data.table setDT copy as.data.table := .N .SD
+#' @importFrom stats anova coef vcov confint fitted residuals nobs df.residual predict
+#' @keywords internal
+"_PACKAGE"
+
+utils::globalVariables(c("term", "value", "computed", "agrees", "digits", "symbol", "meaning", "argument"))

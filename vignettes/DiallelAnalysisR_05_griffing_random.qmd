@@ -1,0 +1,110 @@
+---
+title: "Griffing's methods with random effects"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Griffing's methods with random effects}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+With random effects (Model 2), Griffing's analysis estimates the variances of general and specific combining ability
+and, through them, the additive and dominance variances of the population the parents come from.
+
+# Variance components
+
+```{r random}
+r1 <-
+  Griffing(
+      y          = Yield
+    , Rep        = Rep
+    , Cross1     = Cross1
+    , Cross2     = Cross2
+    , data       = GriffingData1
+    , Method     = 1
+    , Model      = 2
+    , Reciprocal = c("combined", "split")[1]
+    )
+knitr::kable(x = r1$ANOVA, digits = 3)
+knitr::kable(x = r1$Genetic.Components, digits = 3)
+```
+
+In the random model gca is tested against sca (the mean square that contains every term of $\E(MS_g)$ except
+$\sigma^2_g$), and sca and reciprocals against the error.
+
+# All four methods
+
+```{r all}
+comp <-
+  sapply(
+      X   = 1:4
+    , FUN = function(m) {
+        f <-
+          Griffing(
+              y          = Yield
+            , Rep        = Rep
+            , Cross1     = Cross1
+            , Cross2     = Cross2
+            , data       = get(paste0("GriffingData", m))
+            , Method     = m
+            , Model      = 2
+            , Reciprocal = c("combined", "split")[1]
+            )
+        f$Genetic.Components[c("gca", "sca", "Error"), "Components"]
+      }
+    )
+dimnames(comp) <- list(c("gca", "sca", "Error"), paste("Method", 1:4))
+round(x = comp, digits = 2)
+```
+
+The variance of sca is far larger than that of gca in every method: in this material most of the variation among
+crosses is non-additive. A negative estimate (here gca) means that the true component is small; it is reported as
+computed so that the analysis of variance and the components stay consistent.
+
+# Additive and dominance variance
+
+For non-inbred parents without epistasis $\sigma^2_A = 2\sigma^2_g$ and $\sigma^2_D = \sigma^2_s$; their ratio, and
+the ratio $\sigma^2_g/\sigma^2_s$ (also called the predictability ratio), indicate how far selection on parental
+performance can predict the crosses.
+
+```{r ad}
+r1$Genetic.Components[c("Additive", "Dominant", "gca/sca"), , drop = FALSE]
+```
+
+# Summary
+
+Model 2 answers a question about a population (how much additive and dominance variance) rather than about the
+parents tested; its components come from the expected mean squares of vignette 03.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.

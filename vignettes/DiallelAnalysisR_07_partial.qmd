@@ -1,0 +1,90 @@
+---
+title: "Partial diallel between two groups"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Partial diallel between two groups}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+When parents fall into two groups (for example lines and testers, or two heterotic groups) and each parent of one
+group is crossed with each parent of the other, `PartialDiallel()` gives the combining ability of each group and the
+specific combining ability of the crosses.
+
+# The data
+
+```{r data}
+head(PartialDiallelData)
+with(data = PartialDiallelData, expr = table(Cross1, Cross2))[1:3, ]
+```
+
+Ten parents (1 to 10) are crossed with four parents (11 to 14), in four replicates.
+
+# The analysis
+
+```{r analysis}
+p <-
+  PartialDiallel(
+      y      = y
+    , Rep    = Rep
+    , Cross1 = Cross1
+    , Cross2 = Cross2
+    , data   = PartialDiallelData
+    )
+knitr::kable(x = p$ANOVA, digits = 4)
+knitr::kable(x = p$Genetic.Components, digits = 4)
+```
+
+With $L$ and $M$ parents in the two groups, $\sigma^2_{g^I} = (MS_{g^I} - MS_s)/(BM)$,
+$\sigma^2_{g^{II}} = (MS_{g^{II}} - MS_s)/(BL)$ and $\sigma^2_s = (MS_s - MS_E)/B$. `Percent` is each source's
+share of the treatment sum of squares.
+
+# Effects
+
+```{r effects}
+round(x = p$General, digits = 3)
+plot(p)
+```
+
+```{r sca, fig.height = 5}
+plot(p, which = "sca")
+```
+
+# Summary
+
+Both groups show significant general combining ability; the specific combining ability of the crosses is small.
+
+# References
+
+Kempthorne, O. and Curnow, R. N. (1961). The partial diallel cross. *Biometrics*, 17(2), 229--250.
+
+Kempthorne, O. (1957). *An Introduction to Genetic Statistics*. John Wiley and Sons, New York.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.

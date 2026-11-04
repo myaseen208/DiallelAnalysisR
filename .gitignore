@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.quarto
+doc/
+Meta/
+src/*.o
+src/*.so
+src/*.dll
+tests/results/
+*.tar.gz
+*.Rcheck/
+vignettes/*.html
+vignettes/*_files/
+vignettes/[^_]*.tex
+vignettes/*.log
+/pdf/

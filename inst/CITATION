@@ -1,0 +1,24 @@
+# The version and year follow the installed package (from DESCRIPTION); the package was first released in 2016
+# (version 0.1.1, CRAN, 2016-04-09).
+ver  <- if (!is.null(meta$Version)) meta$Version else utils::packageVersion("DiallelAnalysisR")
+date <- if (!is.null(meta$Date)) meta$Date else if (!is.null(meta$`Date/Publication`)) meta$`Date/Publication` else
+  as.character(Sys.Date())
+year <- substr(date, 1L, 4L)
+bibentry(
+    bibtype     = "Manual"
+  , key         = "DiallelAnalysisR"
+  , header      = "To cite DiallelAnalysisR in publications use:"
+  , title       = "{DiallelAnalysisR}: Diallel Analysis, Heterosis and Related Mating Designs"
+  , author      = c(
+        person("Muhammad", "Yaseen", email = "myaseen208@gmail.com", comment = c(ORCID = "0000-0002-5923-1714"))
+      , person("Kent", "Eskridge")
+      , person("Pedro", "Barbosa")
+      , person("Yuhang", "Guo")
+      )
+  , year        = year
+  , note        = sprintf("R package version %s (first released 2016)", ver)
+  , url         = "https://CRAN.R-project.org/package=DiallelAnalysisR"
+  , textVersion = sprintf(paste("Yaseen, M., Eskridge, K., Barbosa, P. and Guo, Y. (%s). DiallelAnalysisR: Diallel",
+                                "Analysis, Heterosis and Related Mating Designs. R package version %s (first released",
+                                "2016). https://CRAN.R-project.org/package=DiallelAnalysisR"), year, ver)
+  )

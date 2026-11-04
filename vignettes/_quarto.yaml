@@ -1,0 +1,22 @@
+project:
+  render:
+  - '*.qmd'
+# shared settings of every vignette: long code lines wrap; wide display maths scrolls (css); one output width
+format:
+  html:
+    code-overflow: wrap
+    css: DiallelAnalysisR.css
+    html-math-method: mathjax
+  # PDF versions (tools/render-pdf.R; not built by R CMD build): gtm.sty layout when LaTeX finds it, the macros of
+  # _DiallelAnalysisR-macros.txt as LaTeX
+  pdf:
+    documentclass: article
+    pdf-engine: xelatex
+    number-sections: true
+    toc: true
+    toc-depth: 2
+    include-in-header: _DiallelAnalysisR-pdf.tex
+knitr:
+  opts_chunk:
+    R.options:
+      width: 80

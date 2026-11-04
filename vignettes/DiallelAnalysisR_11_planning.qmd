@@ -1,0 +1,107 @@
+---
+title: "Simulation and planning the number of replicates"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Simulation and planning the number of replicates}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Simulated data with known effects show how well an analysis recovers them, which is useful in teaching, and how
+often its tests detect effects of a given size, which is the basis for planning an experiment. `DiallelSim()` draws
+the data and `DiallelPower()` estimates the power of the combining-ability tests.
+
+# Simulation and the number of replicates
+
+`DiallelSim()` draws plot data from Griffing's model with chosen standard deviations of the effects and returns the
+true effects with the data, so the estimates can be compared with the truth:
+
+```{r sim}
+s <-
+  DiallelSim(
+      Parents = 6
+    , Method  = 1
+    , Rep     = 4
+    , Env     = 1
+    , Mean    = 100
+    , gca     = 5
+    , sca     = 3
+    , rec     = 1
+    , gcaEnv  = 0
+    , scaEnv  = 0
+    , EnvSD   = 0
+    , Block   = 2
+    , Error   = 4
+    , seed    = 123
+    )
+fs <-
+  Griffing(
+      y          = y
+    , Rep        = Rep
+    , Cross1     = Cross1
+    , Cross2     = Cross2
+    , data       = s
+    , Method     = 1
+    , Model      = 1
+    , Reciprocal = c("combined", "split")[1]
+    )
+round(x = cbind(true = attr(x = s, which = "truth")$gca, estimated = fs$GCA), digits = 2)
+```
+
+`DiallelPower()` repeats such simulations to estimate the power of the gca and sca tests for several numbers of
+replicates, which helps to plan an experiment:
+
+```{r power}
+pw <-
+  DiallelPower(
+      Parents = 6
+    , Method  = 2
+    , Rep     = 2:5
+    , Model   = 1
+    , gca     = 1
+    , sca     = 1.5
+    , rec     = 0
+    , Error   = 4
+    , nsim    = 200
+    , alpha   = 0.05
+    , seed    = 1
+    )
+pw
+plot(x = pw)
+```
+
+# Summary
+
+`DiallelSim()` gives data with known effects for teaching and checking; `DiallelPower()` shows how many replicates
+detect gca and sca effects of a given size.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.

@@ -1,0 +1,108 @@
+---
+title: "Line by tester and North Carolina designs"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Line by tester and North Carolina designs}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Not every crossing scheme is a diallel. In a line $\times$ tester experiment each of $L$ lines is crossed with each of
+$T$ testers; the North Carolina designs of Comstock and Robinson estimate additive and dominance variance from
+half-sib and full-sib families. Both are analysed from the plot data of a randomized complete block experiment, with
+the same result objects, plots and tables as the diallel analyses.
+
+# Line $\times$ tester analysis
+
+`LineTester()` gives Kempthorne's analysis of $L$ lines crossed with $T$ testers: the split of the crosses into lines,
+testers and their interaction with the proportional contribution of each, the gca and sca effects with standard
+errors, and the genetic variances; `Inbreeding` is the inbreeding coefficient $F$ of the parents.
+
+```{r lt}
+lt <-
+  LineTester(
+      y          = Yield
+    , Rep        = Rep
+    , Line       = Line
+    , Tester     = Tester
+    , data       = LineTesterData
+    , Inbreeding = 1
+    )
+lt
+round(x = lt$GCA.Lines, digits = 2)
+round(x = lt$StdErr, digits = 3)
+```
+
+```{r lt-plot}
+plot(x = lt, which = c("gca", "sca", "contribution", "biplot", "residuals", "qq")[1])
+```
+
+# North Carolina designs
+
+`NCDesign()` analyses the three designs of Comstock and Robinson: females nested in males (Design I), males crossed
+with females (Design II), and $F_2$ males backcrossed to both inbred parents (Design III). Each gives the additive and
+dominance variances and the average degree of dominance $\sqrt{2\sigma^2_D/\sigma^2_A}$.
+
+```{r nc}
+nc <- lapply(X = 1:3, FUN = function(k) {
+  NCDesign(
+      y          = Yield
+    , Rep        = Rep
+    , Male       = Male
+    , Female     = Female
+    , data       = NCData[NCData$Design == k, ]
+    , Design     = k
+    , Inbreeding = 0
+    )
+})
+nc[[2]]$ANOVA
+round(
+    x      = sapply(
+        X   = nc
+      , FUN = function(z) z$Genetic.Components[c("Additive", "Dominance", "Degree of dominance"),
+                                                                       "Components"]
+      )
+  , digits = 3
+  )
+```
+
+# Summary
+
+`LineTester()` gives combining ability and the contribution of lines, testers and their interaction; `NCDesign()`
+gives the additive and dominance variances of Designs I, II and III.
+
+# References
+
+Comstock, R. E. and Robinson, H. F. (1948). The components of genetic variance in populations of biparental
+progenies and their use in estimating the average degree of dominance. *Biometrics*, 4(4), 254--266.
+
+Kempthorne, O. (1957). *An Introduction to Genetic Statistics*. John Wiley and Sons, New York.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.

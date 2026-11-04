@@ -1,0 +1,23 @@
+pandoc: '3.10'
+pkgdown: 2.2.1
+pkgdown_sha: ~
+articles:
+  DiallelAnalysisR_01_getting_started: DiallelAnalysisR_01_getting_started.html
+  DiallelAnalysisR_02_choosing: DiallelAnalysisR_02_choosing.html
+  DiallelAnalysisR_03_theory: DiallelAnalysisR_03_theory.html
+  DiallelAnalysisR_04_griffing_fixed: DiallelAnalysisR_04_griffing_fixed.html
+  DiallelAnalysisR_05_griffing_random: DiallelAnalysisR_05_griffing_random.html
+  DiallelAnalysisR_06_hayman: DiallelAnalysisR_06_hayman.html
+  DiallelAnalysisR_07_partial: DiallelAnalysisR_07_partial.html
+  DiallelAnalysisR_08_heterosis: DiallelAnalysisR_08_heterosis.html
+  DiallelAnalysisR_09_linetester: DiallelAnalysisR_09_linetester.html
+  DiallelAnalysisR_10_environments: DiallelAnalysisR_10_environments.html
+  DiallelAnalysisR_11_planning: DiallelAnalysisR_11_planning.html
+  DiallelAnalysisR_12_export_app: DiallelAnalysisR_12_export_app.html
+  DiallelAnalysisR_13_validation: DiallelAnalysisR_13_validation.html
+  DiallelAnalysisR_14_speed: DiallelAnalysisR_14_speed.html
+  DiallelAnalysisR_15_extending: DiallelAnalysisR_15_extending.html
+last_built: 2026-11-04T01:03Z
+urls:
+  reference: https://myaseen208.com/DiallelAnalysisR/reference
+  article: https://myaseen208.com/DiallelAnalysisR/articles

@@ -1,0 +1,9 @@
+/* pkgdown site (synced from SKILL.qmd). pkgdown does not apply Quarto's code-overflow: wrap, so long code lines
+   and wide output wrap or scroll here; wide display maths and tables scroll inside the column. */
+pre, pre code, div.sourceCode pre { white-space: pre-wrap; word-break: break-word; overflow-x: auto; }
+mjx-container[display="true"] { display: block; overflow-x: auto; overflow-y: hidden; max-width: 100%; }
+.table-responsive, main table { display: block; overflow-x: auto; max-width: 100%; }
+main img, main svg { max-width: 100%; height: auto; }
+
+/* example output without the "#>" marks (pkgdown's code highlighter prefixes every output line with them) */
+.r-pr { display: none; }

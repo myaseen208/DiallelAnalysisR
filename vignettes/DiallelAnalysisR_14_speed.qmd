@@ -1,0 +1,61 @@
+---
+title: "Speed"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Speed}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Version 1.0.0 computes every analysis from closed forms on the table of cell means and one block analysis of the plot
+data, instead of refitting models branch by branch. This vignette reports the timings against version 0.6.0.
+
+# Timings
+
+Median time and memory over 20 runs (`tools/bench.R` in the source repository), on the shipped data and on simulated
+diallels of 12 and 20 parents with 3 replicates:
+
+```{r bench}
+b <- data.table::fread(file = system.file("extdata", "bench.csv", package = "DiallelAnalysisR"))
+w <- data.table::dcast(data = b, formula = case ~ version, value.var = "median_ms")
+data.table::setnames(x = w, old = c("0.6.0", "1.0.0"), new = c("ms_0.6.0", "ms_1.0.0"))
+w[, speedup := round(x = ms_0.6.0 / ms_1.0.0, digits = 1)]
+knitr::kable(x = w, digits = 2)
+```
+
+# Where the time goes
+
+Version 0.6.0 fitted `aov()` and built several tables with `tapply()` in each branch, and its cost grew quickly with
+the number of parents. Version 1.0.0 builds the table of cell means in one grouped sum, computes the error mean
+square in closed form for complete blocks, and evaluates the sums of squares, effects, standard errors and expected
+mean squares as matrix expressions; its time hardly changes between 8 and 20 parents.
+
+# Summary
+
+The modernised package is faster for every analysis and many times faster for larger diallels, with less memory.

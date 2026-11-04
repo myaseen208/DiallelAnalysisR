@@ -1,0 +1,126 @@
+---
+title: "Tables for papers and the interactive application"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Tables for papers and the interactive application}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Results of every analysis can be written as tables for a paper, in Word, LaTeX, HTML, Markdown or CSV, with
+`da_export()`; `da_tables()` gives the same tables as data frames. `DiallelApp()` runs the analyses in a web browser
+without writing code. This vignette shows both.
+
+# The tables of an analysis
+
+```{r tables}
+fit <-
+  Griffing(
+      y          = Yield
+    , Rep        = Rep
+    , Cross1     = Cross1
+    , Cross2     = Cross2
+    , data       = GriffingData2
+    , Method     = 2
+    , Model      = 1
+    , Reciprocal = c("combined", "split")[1]
+    )
+tb <-
+  da_tables(
+      x      = fit
+    , digits = 3
+    )
+names(tb)
+tb[["Analysis of variance"]]
+```
+
+Each analysis has its own set: Hayman's analysis gives the analysis of variance, the $W_r$-$V_r$ table and the
+genetic parameters; the line $\times$ tester analysis the analysis of variance, the proportional contributions, the
+effects and the components; and so on.
+
+# Export to Word, LaTeX, HTML, Markdown or CSV
+
+`da_export()` writes the tables, all or a chosen few, with a set number of decimal places. A LaTeX file uses the
+`booktabs` rules and can be included in a paper with `\input{}`:
+
+```{r latex}
+tex <- tempfile(fileext = ".tex")
+da_export(
+    x      = fit
+  , file   = tex
+  , format = c("docx", "latex", "html", "markdown", "csv")[2]
+  , tables = "Analysis of variance"
+  , digits = 2
+  , title  = "Combining-ability analysis of variance"
+  )
+cat(readLines(con = tex), sep = "\n")
+```
+
+A Word file (with the suggested packages officer and flextable) has one formatted table per result, each with its
+title, ready to paste into a manuscript:
+
+```{r docx, eval = requireNamespace("officer", quietly = TRUE) && requireNamespace("flextable", quietly = TRUE)}
+docx <- tempfile(fileext = ".docx")
+da_export(
+    x      = fit
+  , file   = docx
+  , format = c("docx", "latex", "html", "markdown", "csv")[1]
+  , tables = NULL
+  , digits = 3
+  , title  = NULL
+  )
+file.exists(docx)
+```
+
+Markdown tables suit Quarto and R Markdown documents; CSV writes one file per table for a spreadsheet.
+
+# The interactive application
+
+```{r app, eval = FALSE}
+DiallelApp(
+    launch.browser = TRUE
+  )
+```
+
+The application (packages shiny and bslib) has four tabs:
+
+1. **Data**: an example data set of the package or a CSV file with one row per plot.
+2. **Results**: the printed analysis and its tables. The sidebar sets the analysis (Griffing, Griffing over
+   environments, heterosis, Hayman, Gardner and Eberhart, partial diallel, line $\times$ tester, North Carolina
+   designs), the columns of the response, replicates and parents, and the options of the analysis.
+3. **Plots**: every plot of the analysis.
+4. **Export**: the tables in Word, LaTeX, HTML or Markdown, and the R code that repeats the analysis in a script, in
+   the style of the examples of this package.
+
+![The application with Griffing's Method 2 analysis of `GriffingData2`.](DiallelAnalysisR-app.png){width=100%}
+
+# Summary
+
+`da_tables()` and `da_export()` turn any result into tables for a report; `DiallelApp()` gives the same analyses
+and tables without code, and shows the code for later use.

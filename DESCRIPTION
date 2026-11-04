@@ -1,0 +1,82 @@
+Package: DiallelAnalysisR
+Type: Package
+Title: Diallel Analysis, Heterosis and Related Mating Designs
+Version: 1.0.0
+Date: 2026-11-03
+Authors@R:
+    c(
+        person(
+            "Muhammad", "Yaseen"
+          , email   = "myaseen208@gmail.com"
+          , role    = c("aut", "cre", "cph")
+          , comment = c(ORCID = "0000-0002-5923-1714")
+          )
+      , person(
+            "Kent", "Eskridge"
+          , email   = "keskridge1@unl.edu"
+          , role    = c("aut", "ctb")
+          )
+      , person(
+            "Pedro", "Barbosa"
+          , email   = "pedro.barbosa@usp.br"
+          , role    = c("aut", "ctb")
+          )
+      , person(
+            "Yuhang", "Guo"
+          , email   = "dev1271803144@163.com"
+          , role    = c("aut", "ctb")
+          )
+      )
+Description: Analysis of diallel crosses and related mating designs in
+    plant breeding, from the plot data of randomized complete block
+    experiments: Griffing's four methods and two models (Griffing, 1956
+    <doi:10.1071/BI9560463>), from plot data, from a published table of
+    means or over several environments, with gca by environment and sca by
+    environment interactions and a split of reciprocal effects into maternal
+    and non-maternal parts (Cockerham and Weir, 1977); Hayman's analysis
+    with the Wr-Vr graph and the components of variation (Hayman, 1954
+    <doi:10.1093/genetics/39.6.789>); mid-parent, better-parent and standard
+    heterosis with t tests; Gardner and Eberhart's (1966) Analyses II and
+    III; the partial diallel (Kempthorne and Curnow, 1961
+    <doi:10.2307/2527989>); line by tester analysis with proportional
+    contributions; and the North Carolina designs I, II and III (Comstock
+    and Robinson, 1948). Missing plots are handled by least-squares means.
+    Results include analyses of variance, effects with standard errors,
+    variance components and genetic ratios, plots of the effects and a
+    biplot of the crosses, tables for papers in Word, LaTeX, HTML or
+    Markdown, simulation of diallel data and the power of the tests for
+    planning the number of replicates, and an interactive 'shiny'
+    application.
+License: GPL-2 | GPL-3
+URL: https://myaseen208.com/DiallelAnalysisR/, https://github.com/myaseen208/DiallelAnalysisR
+BugReports: https://github.com/myaseen208/DiallelAnalysisR/issues
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Depends:
+    R (>= 4.2)
+Imports:
+    data.table,
+    ggplot2,
+    scales,
+    stats,
+    utils
+Suggests:
+    bench,
+    bslib,
+    flextable,
+    knitr,
+    officer,
+    pkgload,
+    quarto,
+    R.rsp,
+    shiny,
+    svglite,
+    testthat (>= 3.0.0),
+    withr
+VignetteBuilder: quarto, R.rsp
+Config/Needs/website: pkgdown (>= 2.1.0)
+Config/testthat/edition: 3
+Config/skill/prefix: da
+Roxygen: list(markdown = FALSE)
+Config/roxygen2/version: 8.1.1

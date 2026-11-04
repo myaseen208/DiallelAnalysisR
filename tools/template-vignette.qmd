@@ -1,0 +1,58 @@
+---
+title: "TITLE (one method or one theme per vignette)"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{TITLE}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else "svg")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Two or three sentences: the question this vignette answers and the result.
+
+# Model and notation
+
+The model in display maths, every symbol defined once (notation rule: scalars upper case normal face, vectors lower
+case bold, matrices upper case bold). Name the published source of each formula.
+
+# The computation
+
+The formulas the function evaluates, in the order it evaluates them, each followed by the chunk that shows it.
+
+# Example
+
+```{r example}
+# the analysis of a shipped data set, every argument written out
+```
+
+# Interpretation
+
+What the numbers say, with the published values next to them where the example comes from a book or an article.
+
+# Summary
+
+# References

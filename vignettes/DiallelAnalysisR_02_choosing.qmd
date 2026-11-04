@@ -1,0 +1,142 @@
+---
+title: "Choosing an analysis"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Choosing an analysis}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Which function, method and model to use depends on the crosses grown and on the question asked. This vignette gives
+a decision table and shows how to check that a data set has the crosses an analysis needs.
+
+# Decision table
+
+| Crosses grown | Question | Function |
+|---|---|---|
+| parents, $F_1$ and reciprocals | combining ability, reciprocal effects | `Griffing(Method = 1)` |
+| parents and one set of $F_1$ | combining ability | `Griffing(Method = 2)` |
+| $F_1$ and reciprocals, no parents | combining ability, reciprocal effects | `Griffing(Method = 3)` |
+| one set of $F_1$ only | combining ability | `Griffing(Method = 4)` |
+| parents, $F_1$ and reciprocals | gene action: additive and dominance components, $W_r$-$V_r$ graph | `Hayman()` |
+| parents, $F_1$ and reciprocals | maternal and non-maternal reciprocal effects | `Griffing(Method = 1, Reciprocal = "split")` |
+| a published table of cross means | combining ability from the means and the published error | `GriffingMeans()` |
+| any of Griffing's layouts in several environments | stability of gca and sca: interactions with environments | `GriffingEnv()` |
+| parents and crosses (a check variety optional) | heterosis over the mid-parent, better parent, check | `Heterosis()` |
+| parents and one set of $F_1$ | variety effects and average, variety and specific heterosis | `GardnerEberhart()` |
+| two groups of parents crossed with each other | combining ability of each group | `PartialDiallel()` |
+| lines crossed with testers | combining ability, contributions of lines and testers | `LineTester()` |
+| North Carolina Design I, II or III | additive and dominance variance | `NCDesign()` |
+| not yet grown | number of replicates for the tests | `DiallelPower()`, `DiallelSim()` |
+
+**Model.** Choose Model 1 (fixed effects) when the parents are of interest in themselves (the usual case in a
+breeding programme): it gives effects and standard errors. Choose Model 2 (random effects) when the parents are a
+random sample of a population and the aim is to estimate variance components (additive and dominance variance).
+
+# Which method does a data set fit?
+
+```{r cells}
+cells <- function(d) {
+  i <- as.numeric(as.character(d$Cross1))
+  j <- as.numeric(as.character(d$Cross2))
+  u <- unique(data.frame(i = i, j = j))
+  c(parents = length(unique(c(i, j))), selfs = sum(u$i == u$j), above = sum(u$i < u$j), below = sum(u$i > u$j))
+}
+rbind(
+    Data1 = cells(d = GriffingData1)
+  , Data2 = cells(d = GriffingData2)
+  , Data3 = cells(d = GriffingData3)
+  , Data4 = cells(d = GriffingData4)
+  )
+```
+
+With $P$ parents: Method 1 needs $P$ selfs and $P(P-1)$ crosses, Method 2 $P$ selfs and $P(P-1)/2$ crosses (either
+way round), Method 3 $P(P-1)$ crosses and no selfs, Method 4 $P(P-1)/2$ crosses and no selfs.
+
+# What happens when a plot or a cross is missing
+
+A missing plot is allowed in `Griffing()`, `GriffingEnv()`, `Heterosis()`, `GardnerEberhart()`, `LineTester()` and
+`NCDesign()`: the cross means are then least-squares means adjusted for blocks, the number of replicates is the
+harmonic mean of the plot numbers, and the label of the result says so. `Hayman()` and `PartialDiallel()` need every
+plot. Every cross of the method
+must be present, though; a missing cross is reported with its name:
+
+```{r missing}
+d <- subset(x = GriffingData1, subset = !(Cross1 == 1 & Cross2 == 2))
+tryCatch(
+    expr  = Griffing(
+        y          = Yield
+      , Rep        = Rep
+      , Cross1     = Cross1
+      , Cross2     = Cross2
+      , data       = d
+      , Method     = 1
+      , Model      = 1
+      , Reciprocal = c("combined", "split")[1]
+      )
+  , error = function(e) conditionMessage(e)
+  )
+```
+
+Incomplete diallels need a linear mixed model with the gca, sca and reciprocal effects as random terms.
+
+# Column names
+
+The arguments take a column by name, as a string, or a vector:
+
+```{r columns}
+d <- GriffingData1
+names(d) <- c("Female", "Male", "Block", "GrainYield")
+fit <-
+  Griffing(
+      y          = "GrainYield"
+    , Rep        = Block
+    , Cross1     = Female
+    , Cross2     = Male
+    , data       = d
+    , Method     = 1
+    , Model      = 1
+    , Reciprocal = c("combined", "split")[1]
+    )
+fit$ANOVA
+```
+
+# Summary
+
+The crosses grown fix the analysis and the method; the purpose fixes the model. Check the cells before the analysis; every analysis
+reports what is missing.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.
+
+Hayman, B. I. (1954). The theory and analysis of diallel crosses. *Genetics*, 39(6), 789--809.
+
+Hayman, B. I. (1954). The analysis of variance of diallel tables. *Biometrics*, 10(2), 235--244.

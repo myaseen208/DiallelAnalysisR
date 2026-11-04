@@ -1,0 +1,157 @@
+---
+title: "Griffing's methods with fixed effects"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Griffing's methods with fixed effects}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Griffing's four methods with the fixed-effects model (Model 1): the analysis of variance, the gca, sca and
+reciprocal effects, their standard errors and how to compare parents and crosses.
+
+# The four methods on one data set
+
+The data sets for Methods 2 to 4 are subsets of the complete diallel, so the methods can be compared directly.
+
+```{r methods}
+fits <-
+  lapply(
+      X   = 1:4
+    , FUN = function(m) Griffing(
+          y          = Yield
+        , Rep        = Rep
+        , Cross1     = Cross1
+        , Cross2     = Cross2
+        , data       = get(paste0("GriffingData", m))
+        , Method     = m
+        , Model      = 1
+        , Reciprocal = c("combined", "split")[1]
+        )
+    )
+names(fits) <- paste("Method", 1:4)
+do.call(
+    what = rbind
+  , args = lapply(X = fits, FUN = function(f) f$ANOVA[c("gca", "sca"), "Mean Sq"])
+  )
+```
+
+# Method 1: parents, $F_1$ and reciprocals
+
+With $a_i = Y_{i\cdot} + Y_{\cdot i}$ and $Y_{\cdot\cdot}$ the grand total,
+$$
+SS_g = \frac{1}{2P}\sum_i a_i^2 - \frac{2}{P^2}Y_{\cdot\cdot}^2, \qquad
+\hat{g}_i = \frac{a_i}{2P} - \frac{Y_{\cdot\cdot}}{P^2}, \qquad
+\hat{R}_{ij} = \frac{Y_{ij} - Y_{ji}}{2} .
+$$
+
+```{r m1}
+f1 <- fits[["Method 1"]]
+knitr::kable(x = f1$ANOVA, digits = 3)
+knitr::kable(x = f1$Genetic.Components, digits = 4)
+```
+
+The table `Effects` keeps the layout of earlier versions: gca effects on the diagonal, sca effects above it and
+reciprocal effects below it. The full matrices are in `SCA` and `Reciprocal`:
+
+```{r m1-effects}
+round(x = f1$Effects, digits = 2)
+round(x = f1$SCA[1:4, 1:4], digits = 2)
+```
+
+# Standard errors and comparisons
+
+`StdErr` gives the standard errors of single effects and of differences between effects; for Method 1
+$\Var(\hat{g}_i) = (P-1)\sigma^2_m/(2P^2)$ and $\Var(\hat{g}_i - \hat{g}_j) = \sigma^2_m/P$.
+
+```{r se}
+round(x = f1$StdErr, digits = 3)
+t_gca <- f1$GCA / f1$StdErr[["gi"]]
+round(x = t_gca, digits = 2)
+```
+
+A parent's gca effect is significant at the 5% level when $|t|$ exceeds the $t$ quantile on the error degrees of
+freedom:
+
+```{r tcrit}
+qt(p = 0.975, df = f1$ANOVA["Error", "Df"])
+```
+
+# Predicting crosses from general combining ability
+
+Under the fixed model a cross is predicted by $\hat{\mu} + \hat{g}_i + \hat{g}_j$ from the gca effects alone (the
+prediction for a cross not yet made) or by adding $\hat{S}_{ij} + \hat{R}_{ij}$ (which reproduces the observed
+mean). The gap between the two is the specific combining ability of the cross:
+
+```{r predict}
+pr_g <- predict(object = f1, newdata = NULL, type = c("gca", "full")[1])
+pr_f <- predict(object = f1, newdata = NULL, type = c("gca", "full")[2])
+pr <- merge(x = pr_g, y = pr_f, by = c("Cross1", "Cross2"), suffixes = c("_gca", "_full"))
+head(pr[order(-predicted_full)], 8)
+```
+
+# Methods 2, 3 and 4
+
+```{r m234}
+knitr::kable(x = fits[["Method 2"]]$ANOVA, digits = 3)
+knitr::kable(x = fits[["Method 3"]]$ANOVA, digits = 3)
+knitr::kable(x = fits[["Method 4"]]$ANOVA, digits = 3)
+round(
+    x      = rbind(
+        Method1 = fits[[1]]$GCA
+      , Method2 = fits[[2]]$GCA
+      , Method3 = fits[[3]]$GCA
+      , Method4 = fits[[4]]$GCA
+      )
+  , digits = 2
+  )
+```
+
+The best general combiners (parents 3 and 7) and the poorest (parent 8) are the same in all four methods; including
+the parents themselves (Methods 1, 2) or the reciprocals (Methods 1, 3) changes the size of the effects and the order
+of the parents in between.
+
+# Plots
+
+```{r plots}
+plot(fits[["Method 2"]])
+```
+
+# Summary
+
+Model 1 gives the effects of each parent and cross with their standard errors; the `Effects` table keeps the layout
+of earlier versions and `GCA`, `SCA`, `Reciprocal` give the effects in full.
+
+# References
+
+Griffing, B. (1956). Concept of general and specific combining ability in relation to diallel crossing systems.
+*Australian Journal of Biological Sciences*, 9(4), 463--493.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.

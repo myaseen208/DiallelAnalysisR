@@ -1,0 +1,112 @@
+---
+title: "Hayman's analysis"
+author: "Muhammad Yaseen"
+date: last-modified
+format:
+  html:
+    self-contained: true
+    number-sections: true
+    toc: true
+    toc-depth: 3
+    highlight-style: pygments
+    code-tools: true
+    html-math-method: mathjax
+vignette: >
+  %\VignetteIndexEntry{Hayman's analysis}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+{{< include _DiallelAnalysisR-macros.txt >}}
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = FALSE, comment = "", fig.width = 7, fig.height = 4.2,
+                      dev = if (knitr::is_latex_output()) "cairo_pdf" else
+                        if (requireNamespace("svglite", quietly = TRUE)) "svglite" else "png")
+if (requireNamespace("DiallelAnalysisR", quietly = TRUE)) library(DiallelAnalysisR) else
+  pkgload::load_all(export_all = FALSE, helpers = FALSE, quiet = TRUE)
+```
+
+# Abstract
+
+Hayman's approach analyses a complete diallel (parents, $F_1$ and reciprocals) for gene action: an analysis of
+variance that separates additive, dominance, maternal and reciprocal effects; the variances $V_r$ and covariances
+$W_r$ of the arrays and their graph; the components $D$, $H_1$, $H_2$, $F$, $h^2$ and $E$; and tests of the
+additive-dominance model.
+
+# The analysis
+
+```{r hayman}
+h <-
+  Hayman(
+      y      = Yield
+    , Rep    = Rep
+    , Cross1 = Cross1
+    , Cross2 = Cross2
+    , data   = HaymanData
+    )
+knitr::kable(x = h$ANOVA, digits = 3)
+```
+
+Line $b_1$ tests the mean dominance deviation of the crosses from the parents (directional dominance), $b_2$ whether
+this deviation differs among parents, $b_3$ the remaining dominance. Maternal and reciprocal effects are not
+significant here.
+
+# Arrays: $V_r$ and $W_r$
+
+After averaging reciprocal crosses, array $r$ (the progeny of parent $r$) has variance $V_r$ and covariance $W_r$
+with the parents:
+
+```{r arrays}
+knitr::kable(x = h$Wr.Vr.Table[, c("Wr", "Vr", "Wr.Minus.Vr", "Wr.Plus.Vr", "Yr")], digits = 2)
+```
+
+# The $W_r$-$V_r$ graph
+
+```{r graph, fig.height = 5}
+plot(h)
+```
+
+Under the additive-dominance model the points lie on a line of unit slope (dashed) inside the limiting parabola
+$W_r^2 = V_r V_{0L0}$. Parents near the origin carry mostly dominant genes, parents far from it mostly recessive
+genes.
+
+# Tests of the model
+
+```{r tests}
+knitr::kable(x = h$Tests, digits = 4)
+```
+
+A significant $t^2$ or a slope that differs from 1 indicates epistasis or correlated gene distribution; the
+components below then need care. In this data set the slope is negative and differs from 1, so the
+additive-dominance model is not adequate.
+
+# Components of variation
+
+```{r components}
+knitr::kable(x = h$Components.of.Variation, digits = 3)
+knitr::kable(x = h$Other.Parameters, digits = 3)
+```
+
+$\sqrt{H_1/D}$ above 1 indicates overdominance; $H_2/(4H_1)$ below 0.25 an unequal distribution of positive and
+negative alleles among the parents.
+
+# Summary
+
+Hayman's analysis asks how genes act rather than which parents combine well; read the components only when the
+tests support the additive-dominance model.
+
+# References
+
+Hayman, B. I. (1954). The theory and analysis of diallel crosses. *Genetics*, 39(6), 789--809.
+
+Hayman, B. I. (1954). The analysis of variance of diallel tables. *Biometrics*, 10(2), 235--244.
+
+Mather, K. and Jinks, J. L. (1982). *Biometrical Genetics*, 3rd edition. Chapman and Hall, London.
+
+Singh, R. K. and Chaudhary, B. D. (2004). *Biometrical Methods in Quantitative Genetic Analysis*. Kalyani Publishers,
+New Delhi.
