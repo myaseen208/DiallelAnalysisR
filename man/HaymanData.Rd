@@ -29,7 +29,7 @@ Hayman, B. I. (1954). The theory and analysis of diallel crosses. \emph{Genetics
 \seealso{
 \code{\link{Hayman}}
 
-Other DiallelAnalysisR data:
+Other DiallelAnalysisR data: 
 \code{\link{Griffing56}},
 \code{\link{GriffingData1}},
 \code{\link{GriffingData2}},

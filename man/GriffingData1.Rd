@@ -40,7 +40,7 @@ Publishers, New Delhi.
 \seealso{
 \code{\link{Griffing}}, \code{\link{Hayman}}
 
-Other DiallelAnalysisR data:
+Other DiallelAnalysisR data: 
 \code{\link{Griffing56}},
 \code{\link{GriffingData2}},
 \code{\link{GriffingData3}},

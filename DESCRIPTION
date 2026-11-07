@@ -79,4 +79,4 @@ Config/Needs/website: pkgdown (>= 2.1.0)
 Config/testthat/edition: 3
 Config/skill/prefix: da
 Roxygen: list(markdown = FALSE)
-Config/roxygen2/version: 8.1.1
+RoxygenNote: 7.3.2

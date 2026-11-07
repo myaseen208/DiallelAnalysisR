@@ -28,11 +28,11 @@ da_notation(
   )
 }
 \seealso{
-Other DiallelAnalysisR utilities:
-\code{\link[=da_export]{da_export()}},
-\code{\link[=da_reference]{da_reference()}},
-\code{\link[=da_save]{da_save()}},
-\code{\link[=da_theme]{da_theme()}}
+Other DiallelAnalysisR utilities: 
+\code{\link{da_export}()},
+\code{\link{da_reference}()},
+\code{\link{da_save}()},
+\code{\link{da_theme}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})

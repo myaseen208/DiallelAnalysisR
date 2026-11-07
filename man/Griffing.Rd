@@ -291,15 +291,15 @@ Publishers, New Delhi.
 \code{\link{Hayman}}, \code{\link{PartialDiallel}}, \code{\link{GriffingData1}} to
   \code{\link{GriffingData4}}, \code{\link{da-methods}}
 
-Other DiallelAnalysisR analyses:
-\code{\link[=GardnerEberhart]{GardnerEberhart()}},
-\code{\link[=GriffingEnv]{GriffingEnv()}},
-\code{\link[=GriffingMeans]{GriffingMeans()}},
-\code{\link[=Hayman]{Hayman()}},
-\code{\link[=Heterosis]{Heterosis()}},
-\code{\link[=LineTester]{LineTester()}},
-\code{\link[=NCDesign]{NCDesign()}},
-\code{\link[=PartialDiallel]{PartialDiallel()}}
+Other DiallelAnalysisR analyses: 
+\code{\link{GardnerEberhart}()},
+\code{\link{GriffingEnv}()},
+\code{\link{GriffingMeans}()},
+\code{\link{Hayman}()},
+\code{\link{Heterosis}()},
+\code{\link{LineTester}()},
+\code{\link{NCDesign}()},
+\code{\link{PartialDiallel}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com}), Kent M. Eskridge (\email{keskridge1@unl.edu})

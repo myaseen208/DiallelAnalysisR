@@ -74,11 +74,15 @@ for (i in seq_along(qmd)) {
     res$result[i] <- "ok"
     if (ship) {
       # the PDF as a vignette of its own (R.rsp::asis): same title with "(PDF)", a name distinct from the HTML one
-      file.copy(file.path(out, basename(f)), file.path("vignettes", paste0(stem, "-pdf.pdf")), overwrite = TRUE)
-      # compact as R CMD check --as-cran expects (needs qpdf or Ghostscript; skipped when neither is installed)
-      if (nzchar(Sys.which("qpdf")) || nzchar(tools::find_gs_cmd())) {
-        suppressWarnings(tools::compactPDF(file.path("vignettes", paste0(stem, "-pdf.pdf")), gs_quality = "ebook"))
+      # compact as R CMD check --as-cran expects: only Ghostscript recompresses the images (screenshots); qpdf alone
+      # leaves them, and the check then warns "gs+qpdf made some significant size reductions"
+      if (nzchar(tools::find_gs_cmd())) {
+        suppressWarnings(tools::compactPDF(file.path(out, basename(f)), gs_quality = "ebook"))
+      } else {
+        warning("Ghostscript not found: ", basename(f), " is not compacted, and R CMD check --as-cran will warn ",
+                "about its size; install Ghostscript and render again", call. = FALSE)
       }
+      file.copy(file.path(out, basename(f)), file.path("vignettes", paste0(stem, "-pdf.pdf")), overwrite = TRUE)
       ttl <- sub('^title:\\s*"?(.*?)"?\\s*$', "\\1", grep("^title:", readLines(v, n = 10L, warn = FALSE),
                                                               value = TRUE)[1L])
       writeLines(c(sprintf("%%\\VignetteIndexEntry{%s (PDF)}", ttl), "%\\VignetteEngine{R.rsp::asis}",

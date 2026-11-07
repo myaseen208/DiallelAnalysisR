@@ -80,8 +80,8 @@ plot(pw)
 \seealso{
 \code{\link{DiallelSim}}, \code{\link{Griffing}}
 
-Other DiallelAnalysisR planning:
-\code{\link[=DiallelSim]{DiallelSim()}}
+Other DiallelAnalysisR planning: 
+\code{\link{DiallelSim}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})

@@ -1,11 +1,24 @@
-# DiallelAnalysisR: Diallel Analysis, Heterosis and Related Mating
-
-Designs
+# DiallelAnalysisR: Diallel Analysis, Heterosis and Related Mating Designs
 
 [![CRAN
-status](https://www.r-pkg.org/badges/version/DiallelAnalysisR)](https://CRAN.R-project.org/package=DiallelAnalysisR)
-[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/DiallelAnalysisR)](https://CRAN.R-project.org/package=DiallelAnalysisR)
+release](https://www.r-pkg.org/badges/version-last-release/DiallelAnalysisR)](https://CRAN.R-project.org/package=DiallelAnalysisR)
+[![CRAN
+checks](https://badges.cranchecks.info/worst/DiallelAnalysisR.svg)](https://cran.r-project.org/web/checks/check_results_DiallelAnalysisR.html)
+[![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/DiallelAnalysisR?color=green)](https://CRAN.R-project.org/package=DiallelAnalysisR)
+[![Monthly
+downloads](https://cranlogs.r-pkg.org/badges/last-month/DiallelAnalysisR?color=green)](https://CRAN.R-project.org/package=DiallelAnalysisR)
+[![r-universe](https://myaseen208.r-universe.dev/badges/DiallelAnalysisR)](https://myaseen208.r-universe.dev/DiallelAnalysisR)
 [![R-CMD-check](https://github.com/myaseen208/DiallelAnalysisR/actions/workflows/R-CMD-check.yml/badge.svg)](https://github.com/myaseen208/DiallelAnalysisR/actions/workflows/R-CMD-check.yml)
+[![Development
+version](https://img.shields.io/badge/devel%20version-1.0.0-orange.svg)](https://github.com/myaseen208/DiallelAnalysisR)
+[![Minimal R
+version](https://img.shields.io/badge/R%3E%3D-4.2-6666ff.svg)](https://cran.r-project.org/)
+[![Dependencies](https://tinyverse.netlify.app/badge/DiallelAnalysisR)](https://CRAN.R-project.org/package=DiallelAnalysisR)
+[![License](https://img.shields.io/badge/License-GPL--2%20%7C%20GPL--3-blue.svg)](https://www.gnu.org/licenses/licenses.html)
+[![Project Status:
+Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Last
+commit](https://img.shields.io/github/last-commit/myaseen208/DiallelAnalysisR)](https://github.com/myaseen208/DiallelAnalysisR/commits)
 
 ## Overview
 

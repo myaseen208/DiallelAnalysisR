@@ -112,15 +112,15 @@ diallel analyses: Gardner and Eberhart Analyses II and III revisited. \emph{Crop
 \seealso{
 \code{\link{Griffing}}, \code{\link{Heterosis}}
 
-Other DiallelAnalysisR analyses:
-\code{\link[=Griffing]{Griffing()}},
-\code{\link[=GriffingEnv]{GriffingEnv()}},
-\code{\link[=GriffingMeans]{GriffingMeans()}},
-\code{\link[=Hayman]{Hayman()}},
-\code{\link[=Heterosis]{Heterosis()}},
-\code{\link[=LineTester]{LineTester()}},
-\code{\link[=NCDesign]{NCDesign()}},
-\code{\link[=PartialDiallel]{PartialDiallel()}}
+Other DiallelAnalysisR analyses: 
+\code{\link{Griffing}()},
+\code{\link{GriffingEnv}()},
+\code{\link{GriffingMeans}()},
+\code{\link{Hayman}()},
+\code{\link{Heterosis}()},
+\code{\link{LineTester}()},
+\code{\link{NCDesign}()},
+\code{\link{PartialDiallel}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})

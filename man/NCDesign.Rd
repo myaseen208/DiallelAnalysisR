@@ -124,15 +124,15 @@ Springer, New York. \doi{10.1007/978-1-4419-0766-0}
 \seealso{
 \code{\link{LineTester}}, \code{\link{NCData}}
 
-Other DiallelAnalysisR analyses:
-\code{\link[=GardnerEberhart]{GardnerEberhart()}},
-\code{\link[=Griffing]{Griffing()}},
-\code{\link[=GriffingEnv]{GriffingEnv()}},
-\code{\link[=GriffingMeans]{GriffingMeans()}},
-\code{\link[=Hayman]{Hayman()}},
-\code{\link[=Heterosis]{Heterosis()}},
-\code{\link[=LineTester]{LineTester()}},
-\code{\link[=PartialDiallel]{PartialDiallel()}}
+Other DiallelAnalysisR analyses: 
+\code{\link{GardnerEberhart}()},
+\code{\link{Griffing}()},
+\code{\link{GriffingEnv}()},
+\code{\link{GriffingMeans}()},
+\code{\link{Hayman}()},
+\code{\link{Heterosis}()},
+\code{\link{LineTester}()},
+\code{\link{PartialDiallel}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})

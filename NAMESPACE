@@ -43,23 +43,19 @@ export(da_reference)
 export(da_save)
 export(da_tables)
 export(da_theme)
-importFrom(data.table,
-  ":=",
-  .N,
-  .SD,
-  as.data.table,
-  copy,
-  data.table,
-  setDT
-)
-importFrom(stats,
-  anova,
-  coef,
-  confint,
-  df.residual,
-  fitted,
-  nobs,
-  predict,
-  residuals,
-  vcov
-)
+importFrom(data.table,":=")
+importFrom(data.table,.N)
+importFrom(data.table,.SD)
+importFrom(data.table,as.data.table)
+importFrom(data.table,copy)
+importFrom(data.table,data.table)
+importFrom(data.table,setDT)
+importFrom(stats,anova)
+importFrom(stats,coef)
+importFrom(stats,confint)
+importFrom(stats,df.residual)
+importFrom(stats,fitted)
+importFrom(stats,nobs)
+importFrom(stats,predict)
+importFrom(stats,residuals)
+importFrom(stats,vcov)

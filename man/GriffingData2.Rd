@@ -29,7 +29,7 @@ Griffing, B. (1956). Concept of general and specific combining ability in relati
 \seealso{
 \code{\link{Griffing}}
 
-Other DiallelAnalysisR data:
+Other DiallelAnalysisR data: 
 \code{\link{Griffing56}},
 \code{\link{GriffingData1}},
 \code{\link{GriffingData3}},

@@ -102,8 +102,8 @@ cbind(true = attr(x = d, which = "truth")$gca, estimated = fit$GCA)
 \seealso{
 \code{\link{DiallelPower}}, \code{\link{Griffing}}, \code{\link{GriffingEnv}}
 
-Other DiallelAnalysisR planning:
-\code{\link[=DiallelPower]{DiallelPower()}}
+Other DiallelAnalysisR planning: 
+\code{\link{DiallelPower}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})

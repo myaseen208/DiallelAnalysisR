@@ -94,15 +94,15 @@ Publishers, New Delhi.
 \seealso{
 \code{\link{Griffing}}, \code{\link{GardnerEberhart}}
 
-Other DiallelAnalysisR analyses:
-\code{\link[=GardnerEberhart]{GardnerEberhart()}},
-\code{\link[=Griffing]{Griffing()}},
-\code{\link[=GriffingEnv]{GriffingEnv()}},
-\code{\link[=GriffingMeans]{GriffingMeans()}},
-\code{\link[=Hayman]{Hayman()}},
-\code{\link[=LineTester]{LineTester()}},
-\code{\link[=NCDesign]{NCDesign()}},
-\code{\link[=PartialDiallel]{PartialDiallel()}}
+Other DiallelAnalysisR analyses: 
+\code{\link{GardnerEberhart}()},
+\code{\link{Griffing}()},
+\code{\link{GriffingEnv}()},
+\code{\link{GriffingMeans}()},
+\code{\link{Hayman}()},
+\code{\link{LineTester}()},
+\code{\link{NCDesign}()},
+\code{\link{PartialDiallel}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})

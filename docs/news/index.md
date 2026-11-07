@@ -2,6 +2,8 @@
 
 ## DiallelAnalysisR 1.0.0
 
+CRAN release: 2026-11-06
+
 ### Changes visible to users
 
 - Every function keeps its name, its arguments and the names of its

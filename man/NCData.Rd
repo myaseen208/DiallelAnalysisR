@@ -38,7 +38,7 @@ progenies and their use in estimating the average degree of dominance. \emph{Bio
 \seealso{
 \code{\link{NCDesign}}
 
-Other DiallelAnalysisR data:
+Other DiallelAnalysisR data: 
 \code{\link{Griffing56}},
 \code{\link{GriffingData1}},
 \code{\link{GriffingData2}},

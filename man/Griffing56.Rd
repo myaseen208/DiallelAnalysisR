@@ -42,7 +42,7 @@ proportions of corn belt and non-corn belt germ plasm. \emph{Agronomy Journal}, 
 \seealso{
 \code{\link{GriffingMeans}}
 
-Other DiallelAnalysisR data:
+Other DiallelAnalysisR data: 
 \code{\link{GriffingData1}},
 \code{\link{GriffingData2}},
 \code{\link{GriffingData3}},

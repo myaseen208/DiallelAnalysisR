@@ -34,7 +34,7 @@ Kempthorne, O. (1957). \emph{An Introduction to Genetic Statistics}. John Wiley 
 \seealso{
 \code{\link{LineTester}}
 
-Other DiallelAnalysisR data:
+Other DiallelAnalysisR data: 
 \code{\link{Griffing56}},
 \code{\link{GriffingData1}},
 \code{\link{GriffingData2}},

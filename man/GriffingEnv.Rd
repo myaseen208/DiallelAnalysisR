@@ -122,15 +122,15 @@ Journal}, \strong{89}(2), 176--182. \doi{10.2134/agronj1997.00021962008900020005
 \seealso{
 \code{\link{Griffing}}, \code{\link{DiallelSim}}
 
-Other DiallelAnalysisR analyses:
-\code{\link[=GardnerEberhart]{GardnerEberhart()}},
-\code{\link[=Griffing]{Griffing()}},
-\code{\link[=GriffingMeans]{GriffingMeans()}},
-\code{\link[=Hayman]{Hayman()}},
-\code{\link[=Heterosis]{Heterosis()}},
-\code{\link[=LineTester]{LineTester()}},
-\code{\link[=NCDesign]{NCDesign()}},
-\code{\link[=PartialDiallel]{PartialDiallel()}}
+Other DiallelAnalysisR analyses: 
+\code{\link{GardnerEberhart}()},
+\code{\link{Griffing}()},
+\code{\link{GriffingMeans}()},
+\code{\link{Hayman}()},
+\code{\link{Heterosis}()},
+\code{\link{LineTester}()},
+\code{\link{NCDesign}()},
+\code{\link{PartialDiallel}()}
 }
 \author{
 Muhammad Yaseen (\email{myaseen208@gmail.com})
